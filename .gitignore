@@ -25,3 +25,4 @@ frontend/.env
 .idea/
 .DS_Store
 Thumbs.db
+rustdesk-saas/
