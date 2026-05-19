@@ -183,6 +183,35 @@ Arquivo de orquestração Docker que define e gerencia todos os containers do pr
 ## 6. Banco de Dados - Configuração Correta (Importante!)
 O banco de dados **PostgreSQL 15** utiliza **`TIMESTAMPTZ` (timestamp with time zone)** para TODAS as colunas de data/hora. Isso é **essencial** para evitar bugs de timezone!
 
+---
+
+## 6.1. Arquivos de Configuração (IMPORTANTE!)
+Os arquivos de configuração sensíveis **NÃO ESTÃO NO REPOSITÓRIO GITHUB** (para proteger dados como IP do servidor, chave do RustDesk e senhas). Em vez disso, temos **arquivos de exemplo** que você deve copiar e preencher com seus dados!
+
+### Arquivos de Exemplo
+1. **`.env.example`**: Exemplo de arquivo de variáveis de ambiente
+2. **`docker-compose.yml.example`**: Exemplo de arquivo de orquestração Docker
+
+### Como Configurar (Primeira Vez)
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/davi-ricardo/rustdesk-saas.git
+   cd rustdesk-saas
+   ```
+2. Copie os arquivos de exemplo para os arquivos reais:
+   ```bash
+   cp .env.example .env
+   cp docker-compose.yml.example docker-compose.yml
+   ```
+3. Abra os arquivos `.env` e `docker-compose.yml` e preencha com seus dados:
+   - **IP_SERVER**: IP/domínio do seu servidor
+   - **RELAY_SERVER**: IP/domínio do seu servidor (igual ao IP_SERVER)
+   - **RUSTDESK_KEY**: Chave pública do RustDesk (conteúdo do arquivo `data/id_ed25519.pub`)
+   - Outras variáveis: senhas, credenciais do usuário administrador, etc.
+4. Prossiga com a instalação!
+
+---
+
 ### Por que `TIMESTAMPTZ` e não `TIMESTAMP`?
 - **`TIMESTAMP`**: Não armazena informação de timezone. Quando o Node.js lê um `TIMESTAMP`, ele interpreta como sendo do timezone do servidor Node.js, o que causava bugs de desalinhamento de horário (4 horas de adiantamento/atraso).
 - **`TIMESTAMPTZ`**: Armazena a data/hora em UTC (horário universal) e converte para o timezone do cliente quando consultado. Isso garante que o horário seja exibido corretamente em qualquer lugar do mundo!
