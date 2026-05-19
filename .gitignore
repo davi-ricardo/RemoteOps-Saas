@@ -8,6 +8,9 @@ dist/
 frontend/dist/
 *.log
 
+# Arquivos de configuração sensíveis (não subir para o GitHub!)
+docker-compose.yml
+
 # Dados do Docker (IMPORTANTE: não subir o banco de dados)
 pgdata/
 data/
