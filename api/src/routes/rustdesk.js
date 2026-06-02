@@ -9,6 +9,7 @@ const authMiddleware = (req, res, next) => {
 
 router.get("/server-info", authMiddleware, rustdeskController.getServerInfo);
 router.put("/server-info", authenticate, adminOnly, rustdeskController.updateServerInfo);
+router.get("/today-connections", authMiddleware, rustdeskController.getTodayConnections);
 router.get("/devices", authMiddleware, rustdeskController.getDevices);
 router.post("/alias", authMiddleware, rustdeskController.saveAlias);
 router.get("/reports", authMiddleware, rustdeskController.getReports);

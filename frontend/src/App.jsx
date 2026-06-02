@@ -54,6 +54,7 @@ function App() {
   const [editIdServer, setEditIdServer] = useState('');
   const [editRelayServer, setEditRelayServer] = useState('');
   const [editRustdeskKey, setEditRustdeskKey] = useState('');
+  const [todayConnections, setTodayConnections] = useState(0);
 
   // Fetch functions
   const fetchServerInfo = async () => {
@@ -66,6 +67,13 @@ function App() {
         setEditRustdeskKey(response.data?.key || '');
       }
     } catch (err) { console.error('Erro ao buscar info do servidor'); }
+  };
+
+  const fetchTodayConnections = async () => {
+    try {
+      const response = await api.get('/api/today-connections');
+      setTodayConnections(response.data.count);
+    } catch (err) { console.error('Erro ao buscar conexões de hoje'); }
   };
 
   const fetchDevices = async () => {
@@ -293,6 +301,7 @@ function App() {
   useEffect(() => {
     if (token) {
       fetchServerInfo();
+      fetchTodayConnections();
       fetchDevices();
       fetchGroups();
       if (currentUser?.role === 'admin') {
@@ -330,7 +339,7 @@ function App() {
   const renderTabContent = () => {
     switch (activeTab) {
       case 'home':
-        return <DashboardPage devices={devices} users={users} />;
+        return <DashboardPage devices={devices} users={users} todayConnections={todayConnections} />;
       
       case 'devices':
         return (

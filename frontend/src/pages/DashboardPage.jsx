@@ -1,6 +1,6 @@
 import StatCard from '../components/StatCard';
 
-const DashboardPage = ({ devices, users }) => {
+const DashboardPage = ({ devices, users, todayConnections }) => {
   const onlineDevices = devices.filter(d => d.is_online).length;
   
   return (
@@ -28,7 +28,7 @@ const DashboardPage = ({ devices, users }) => {
         <StatCard
           icon="🔗"
           label="Conexões Hoje"
-          value="1240"
+          value={todayConnections}
           color="orange"
         />
       </div>

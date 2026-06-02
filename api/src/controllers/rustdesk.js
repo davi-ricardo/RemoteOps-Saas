@@ -1,7 +1,7 @@
 const fs = require('fs');
 const db = require("../db");
 
-exports.getServerInfo = (req, res) => {
+exports.getServerInfo = async (req, res) => {
   try {
     const publicKeyPath = '/root/id_ed25519.pub';
     let publicKey = process.env.RUSTDESK_KEY || 'Key not found';
@@ -10,14 +10,40 @@ exports.getServerInfo = (req, res) => {
       publicKey = fs.readFileSync(publicKeyPath, 'utf8').trim();
     }
 
+    // Tenta buscar as configurações do banco primeiro
+    const dbSettings = await db.query(`
+      SELECT key, value FROM app_settings 
+      WHERE key IN ('id_server', 'relay_server', 'rustdesk_key')
+    `);
+
+    const settings = {};
+    dbSettings.rows.forEach(row => {
+      settings[row.key] = row.value;
+    });
+
     res.json({
-      idServer: process.env.ID_SERVER || '76.13.174.204',
-      relayServer: process.env.RELAY_SERVER || '76.13.174.204',
-      key: publicKey
+      idServer: settings.id_server || process.env.ID_SERVER || '76.13.174.204',
+      relayServer: settings.relay_server || process.env.RELAY_SERVER || '76.13.174.204',
+      key: settings.rustdesk_key || publicKey
     });
   } catch (err) {
     console.error('Error reading RustDesk key:', err);
     res.status(500).json({ error: 'Failed to get server info' });
+  }
+};
+
+exports.getTodayConnections = async (req, res) => {
+  try {
+    const result = await db.query(`
+      SELECT COUNT(*) as count
+      FROM connection_logs
+      WHERE DATE(timestamp) = CURRENT_DATE
+        AND action IN ('start', 'open')
+    `);
+    res.json({ count: parseInt(result.rows[0].count) });
+  } catch (err) {
+    console.error("Error fetching today connections:", err);
+    res.status(500).json({ error: "Failed to fetch today connections" });
   }
 };
 
