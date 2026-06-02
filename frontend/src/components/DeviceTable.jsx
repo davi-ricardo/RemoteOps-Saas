@@ -68,8 +68,8 @@ const DeviceTable = ({ devices, groups, onEditDevice, filterGroupId, setFilterGr
                   </span>
                 </td>
                 <td className="px-6 py-4">
-                  <code className="text-xs text-slate-500 bg-slate-800 px-2 py-1 rounded-lg">
-                    {device.id}
+                  <code className="text-xs text-pink-400 bg-slate-800 px-2 py-1 rounded-lg break-all">
+                    {device.device_id}
                   </code>
                 </td>
                 <td className="px-6 py-4">
