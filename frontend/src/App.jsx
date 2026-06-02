@@ -200,13 +200,6 @@ function App() {
     } catch (err) { alert('Erro ao salvar categoria do log'); }
   };
 
-  const handleSwapFromTo = async (logId) => {
-    try {
-      await api.put(`/api/reports/${logId}/swap`);
-      fetchReports();
-    } catch (err) { alert('Erro ao inverter origem/destino'); }
-  };
-
   const handleExportXLS = async () => {
     try {
       const response = await api.get(`/api/reports/export/xls?month=${exportMonth}&year=${exportYear}`, {
@@ -521,7 +514,6 @@ function App() {
               setEditingLog(log);
               setSelectedCategoryId(log.category_id || '');
             }}
-            onSwapFromTo={handleSwapFromTo}
             exportMonth={exportMonth}
             setExportMonth={setExportMonth}
             exportYear={exportYear}

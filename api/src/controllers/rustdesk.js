@@ -85,7 +85,7 @@ exports.heartbeat = async (req, res) => {
     res.json({ status: "ok" });
   } catch (err) {
     console.error("Erro ao processar heartbeat no banco:", err);
-    res.status(500).json({ status: "error" });
+    res.status(500).json({ error: "Failed to process heartbeat" });
   }
 };
 
@@ -127,16 +127,16 @@ exports.saveAlias = async (req, res) => {
   }
 };
 
-// Connection Logs - Capturar eventos
+// Connection Logs - Captura eventos
 exports.logConnection = async (req, res) => {
   // Log para depuração na VPS - LOGA TUDO, inclusive as chaves!
-  console.log("=" .repeat(60));
+  console.log("=".repeat(60));
   console.log("[LOG] Nova requisição de conexão recebida!");
   console.log("[LOG] Caminho da requisição:", req.path);
   console.log("[LOG] Método:", req.method);
   console.log("[LOG] Body completo (raw):", JSON.stringify(req.body, null, 2));
   console.log("[LOG] Chaves do body:", Object.keys(req.body));
-  console.log("=" .repeat(60));
+  console.log("=".repeat(60));
   
   // Captura MUITOS formatos possíveis que o RustDesk pode enviar
   const body = req.body;
@@ -237,113 +237,98 @@ exports.logConnection = async (req, res) => {
     return res.json({ status: "ok" }); // Retorna ok para o client não reclamar
   }
 
-  // Se não tiver from ou to, procura o log de "start" mais recente para o mesmo conn_id ou session_id
-  let save_from = final_from || null;
-  let save_to = final_to || null;
-  
-  // Calcula a duração automaticamente se for um "close" e temos um "start"
-  let calculatedDuration = final_duration;
-  if ((final_action === 'close' || final_action === 'end') && (conn_id || session_id)) {
-    try {
-      // Procura o log de "start" mais recente
-      let startLog = null;
-      if (conn_id) {
-        const resultConn = await db.query(`
-          SELECT id, timestamp, from_device_id, to_device_id FROM connection_logs 
-          WHERE conn_id = $1 
-            AND (action = 'start' OR action = 'open')
-          ORDER BY timestamp DESC 
-          LIMIT 1
-        `, [conn_id]);
-        if (resultConn.rows.length > 0) {
-          startLog = resultConn.rows[0];
-        }
+  try {
+    // Primeiro, verifica se já existe um registro para essa conexão (usando conn_id ou session_id)
+    let existingLog = null;
+    if (conn_id) {
+      const resultConn = await db.query(`
+        SELECT * FROM connection_logs 
+        WHERE conn_id = $1
+        ORDER BY id DESC 
+        LIMIT 1
+      `, [conn_id]);
+      if (resultConn.rows.length > 0) {
+        existingLog = resultConn.rows[0];
       }
-      if (!startLog && session_id) {
-        const resultSession = await db.query(`
-          SELECT id, timestamp, from_device_id, to_device_id FROM connection_logs 
-          WHERE session_id = $1 
-            AND (action = 'start' OR action = 'open')
-          ORDER BY timestamp DESC 
-          LIMIT 1
-        `, [session_id]);
-        if (resultSession.rows.length > 0) {
-          startLog = resultSession.rows[0];
-        }
+    }
+    if (!existingLog && session_id) {
+      const resultSession = await db.query(`
+        SELECT * FROM connection_logs 
+        WHERE session_id = $1
+        ORDER BY id DESC 
+        LIMIT 1
+      `, [session_id]);
+      if (resultSession.rows.length > 0) {
+        existingLog = resultSession.rows[0];
       }
+    }
 
-      // Se encontrou o log de start
-      if (startLog) {
-        console.log("[LOG] Log de start encontrado:", startLog);
-        console.log("[LOG-DEBUG] Horário atual do servidor (new Date()):", new Date());
-        console.log("[LOG-DEBUG] Horário do start log (startLog.timestamp):", new Date(startLog.timestamp));
-        // SEMPRE usa os from e to do log de start, independentemente do que veio no close!
-        save_from = startLog.from_device_id;
-        save_to = startLog.to_device_id;
-        // Calcula a duração usando o timestamp diretamente do banco!
-        const startDate = new Date(startLog.timestamp);
+    if (final_action === 'start') {
+      // Se é uma conexão de início e não existe registro, cria um novo
+      if (!existingLog) {
+        await db.query(`
+          INSERT INTO connection_logs (from_device_id, to_device_id, action, conn_id, session_id)
+          VALUES ($1, $2, $3, $4, $5)
+        `, [final_from, final_to, final_action, conn_id, session_id]);
+        console.log("[LOG] Novo log de início de conexão criado com sucesso!");
+      } else {
+        // Se já existe, só atualiza a ação para start (caso tenha sido finalizada e reiniciada)
+        await db.query(`
+          UPDATE connection_logs
+          SET action = $1, duration = null
+          WHERE id = $2
+        `, [final_action, existingLog.id]);
+        console.log("[LOG] Log de conexão reiniciado!");
+      }
+    } else if (final_action === 'end' || final_action === 'close') {
+      // Se é uma conexão de fim e existe registro, atualiza-o
+      if (existingLog) {
+        // Calcula a duração usando o timestamp do banco e o horário atual
+        const startDate = new Date(existingLog.timestamp);
         const endDate = new Date();
-        console.log("[LOG-DEBUG] startDate:", startDate);
-        console.log("[LOG-DEBUG] endDate:", endDate);
-        console.log("[LOG-DEBUG] Diferença em ms:", (endDate - startDate));
-        calculatedDuration = Math.floor((endDate - startDate) / 1000);
-        // Garante que a duração não é negativa!
-        if (calculatedDuration < 0) {
-          calculatedDuration = 0;
+        let calculatedDuration = final_duration;
+        if (final_duration <= 0) {
+          calculatedDuration = Math.floor((endDate - startDate) / 1000);
+          if (calculatedDuration < 0) calculatedDuration = 0;
         }
         console.log("[LOG] Duração calculada automaticamente:", calculatedDuration, "segundos");
-        console.log("[LOG] Usando from e to do log de start:", { save_from, save_to });
+
+        await db.query(`
+          UPDATE connection_logs
+          SET action = 'end', duration = $1
+          WHERE id = $2
+        `, [calculatedDuration, existingLog.id]);
+        console.log("[LOG] Log de conexão finalizado com sucesso!");
       } else {
-        console.log("[LOG] Nenhum log de start encontrado para conn_id:", conn_id, "session_id:", session_id);
+        // Se não existe registro de início, cria um registro de finalização (fallback)
+        await db.query(`
+          INSERT INTO connection_logs (from_device_id, to_device_id, action, duration, conn_id, session_id)
+          VALUES ($1, $2, 'end', $3, $4, $5)
+        `, [final_from, final_to, final_duration, conn_id, session_id]);
+        console.log("[LOG] Log de finalização criado (sem registro de início)!");
       }
-    } catch (err) {
-      console.error("[LOG] Erro ao calcular duração automaticamente:", err);
-    }
-  }
-
-  try {
-    // Verifica se já existe um log com os mesmos dados nos últimos 5 segundos (evita duplicatas)
-    const checkResult = await db.query(`
-      SELECT id FROM connection_logs 
-      WHERE from_device_id IS NOT DISTINCT FROM $1 
-        AND to_device_id IS NOT DISTINCT FROM $2 
-        AND action = $3 
-        AND conn_id IS NOT DISTINCT FROM $4
-        AND session_id IS NOT DISTINCT FROM $5
-        AND timestamp >= NOW() - INTERVAL '5 seconds'
-    `, [save_from, save_to, final_action, conn_id, session_id]);
-
-    if (checkResult.rows.length > 0) {
-      console.log("[LOG] Log duplicado detectado, não salvando.");
-      return res.json({ status: "ok" });
     }
 
-    // Insere o novo log
-    await db.query(`
-      INSERT INTO connection_logs (from_device_id, to_device_id, action, duration, conn_id, session_id)
-      VALUES ($1, $2, $3, $4, $5, $6)
-    `, [save_from, save_to, final_action, calculatedDuration, conn_id, session_id]);
-    console.log("[LOG] Log salvo com sucesso no banco!");
     res.json({ status: "ok" });
   } catch (err) {
-    console.error("[LOG] Erro ao salvar log:", err);
+    console.error("[LOG] Erro ao salvar/atualizar log:", err);
     res.status(500).json({ error: "Failed to log connection" });
   }
 };
 
-// Relatórios de Conexão - Listar
+// Relatórios de Conexões - Listar
 exports.getReports = async (req, res) => {
   try {
     console.log("[LOG] getReports: Buscando relatórios...");
     const result = await db.query(`
       SELECT cl.*, 
-             f.alias as from_alias, 
-             t.alias as to_alias,
-             sc.name as category_name,
-             fd.username as from_username,
-             fd.hostname as from_hostname,
-             td.username as to_username,
-             td.hostname as to_hostname
+        f.alias as from_alias, 
+        t.alias as to_alias,
+        sc.name as category_name,
+        fd.username as from_username,
+        fd.hostname as from_hostname,
+        td.username as to_username,
+        td.hostname as to_hostname
       FROM connection_logs cl
       LEFT JOIN address_book f ON cl.from_device_id = f.device_id
       LEFT JOIN address_book t ON cl.to_device_id = t.device_id
@@ -354,7 +339,6 @@ exports.getReports = async (req, res) => {
       LIMIT 100
     `);
     console.log("[LOG] getReports: Encontrados", result.rows.length, "logs");
-    console.log("[LOG] getReports: Primeiros 5 logs:", result.rows.slice(0, 5));
     
     // Formata o retorno para usar alias, se existir, senão username@hostname, senão o ID RustDesk
     const formatted = result.rows.map(row => ({
@@ -428,30 +412,14 @@ exports.updateLogCategory = async (req, res) => {
   }
 };
 
-exports.swapLogFromTo = async (req, res) => {
-  try {
-    const { id } = req.params;
-    await db.query(`
-      UPDATE connection_logs 
-      SET from_device_id = to_device_id, 
-          to_device_id = from_device_id 
-      WHERE id = $1
-    `, [id]);
-    res.json({ status: "ok" });
-  } catch (err) {
-    console.error("Error swapping log from/to:", err);
-    res.status(500).json({ error: "Failed to swap log from/to" });
-  }
-};
-
 exports.exportXLS = async (req, res) => {
   try {
     const { month, year } = req.query;
     const result = await db.query(`
       SELECT cl.*, 
-             f.alias as from_alias, 
-             t.alias as to_alias,
-             sc.name as category_name
+        f.alias as from_alias, 
+        t.alias as to_alias,
+        sc.name as category_name
       FROM connection_logs cl
       LEFT JOIN address_book f ON cl.from_device_id = f.device_id
       LEFT JOIN address_book t ON cl.to_device_id = t.device_id
@@ -463,7 +431,7 @@ exports.exportXLS = async (req, res) => {
 
     const XLSX = require('xlsx');
     const data = result.rows.map(row => ({
-      'Data/Hora': new Date(row.timestamp).toLocaleString(),
+      'Data/Hora': new Date(row.timestamp).toLocaleString('pt-BR', { timeZone: 'America/Cuiaba' }),
       'Origem (Técnico)': row.from_alias || row.from_device_id || 'Desconhecido',
       'Destino (Cliente)': row.to_alias || row.to_device_id,
       'Tipo de Serviço': row.category_name || 'Não classificado',
@@ -491,10 +459,10 @@ exports.sysinfo = (req, res) => {
 
 exports.ingestHbbrLogs = async (req, res) => {
   try {
-    console.log("=" .repeat(60));
+    console.log("=".repeat(60));
     console.log("[LOG] HBBR logs received!");
     console.log("[LOG] Body completo (raw):", req.body);
-    console.log("=" .repeat(60));
+    console.log("=".repeat(60));
     res.json({ status: "ok" });
   } catch (err) {
     console.error("Error ingesting HBBR logs:", err);

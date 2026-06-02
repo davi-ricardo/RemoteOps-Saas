@@ -1,4 +1,4 @@
-const ReportsTable = ({ reports, serviceCategories, onClassifyLog, onSwapFromTo, exportMonth, setExportMonth, exportYear, setExportYear, onExportXLS }) => {
+const ReportsTable = ({ reports, serviceCategories, onClassifyLog, exportMonth, setExportMonth, exportYear, setExportYear, onExportXLS }) => {
   const formatDate = (timestamp) => {
     if (!timestamp) return '-';
     const date = new Date(timestamp);
@@ -115,13 +115,6 @@ const ReportsTable = ({ reports, serviceCategories, onClassifyLog, onSwapFromTo,
                       className="px-3 py-1.5 text-sm text-slate-300 hover:bg-slate-700 rounded-lg transition-all"
                     >
                       Classificar
-                    </button>
-                    <button
-                      onClick={() => onSwapFromTo(log.id)}
-                      className="px-3 py-1.5 text-sm text-yellow-400 hover:bg-yellow-500/10 rounded-lg transition-all"
-                      title="Inverter Origem/Destino"
-                    >
-                      ↺
                     </button>
                   </div>
                 </td>
