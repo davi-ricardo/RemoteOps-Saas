@@ -301,6 +301,13 @@ function App() {
     }
   };
 
+  // Inicializa activeTab com a preferência salva quando o componente monta
+  useEffect(() => {
+    if (preferences.homePage) {
+      setActiveTab(preferences.homePage);
+    }
+  }, []);
+
   // Atualiza activeTab quando a preferência de homePage muda
   useEffect(() => {
     if (preferences.homePage) {
