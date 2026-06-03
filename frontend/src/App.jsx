@@ -363,13 +363,13 @@ function App() {
           <div className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-1">
-                <div className="rounded-2xl bg-slate-900/50 border border-slate-800/50 p-6">
+                <div className="rounded-2xl bg-background-secondary border border-border p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-semibold text-white">Configurações VPS</h3>
+                    <h3 className="text-lg font-semibold text-text">Configurações VPS</h3>
                     {currentUser?.role === 'admin' && (
                       <button
                         onClick={() => setEditingServerInfo(!editingServerInfo)}
-                        className="px-4 py-2 text-sm bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl transition-all"
+                        className="px-4 py-2 text-sm bg-surface hover:bg-surface-hover text-text-secondary rounded-xl transition-all"
                       >
                         {editingServerInfo ? 'Cancelar' : 'Editar'}
                       </button>
@@ -379,20 +379,20 @@ function App() {
                   {!editingServerInfo ? (
                     <div className="space-y-4">
                       <div>
-                        <label className="text-xs text-slate-500 uppercase">ID Server</label>
-                        <code className="block mt-1 p-3 bg-slate-800 rounded-lg text-pink-400 text-sm break-all">
+                        <label className="text-xs text-text-muted uppercase">ID Server</label>
+                        <code className="block mt-1 p-3 bg-surface rounded-lg text-pink-500 text-sm break-all">
                           {serverInfo?.idServer || '-'}
                         </code>
                       </div>
                       <div>
-                        <label className="text-xs text-slate-500 uppercase">Relay Server</label>
-                        <code className="block mt-1 p-3 bg-slate-800 rounded-lg text-pink-400 text-sm break-all">
+                        <label className="text-xs text-text-muted uppercase">Relay Server</label>
+                        <code className="block mt-1 p-3 bg-surface rounded-lg text-pink-500 text-sm break-all">
                           {serverInfo?.relayServer || '-'}
                         </code>
                       </div>
                       <div>
-                        <label className="text-xs text-slate-500 uppercase">Key</label>
-                        <code className="block mt-1 p-3 bg-slate-800 rounded-lg text-pink-400 text-sm break-all">
+                        <label className="text-xs text-text-muted uppercase">Key</label>
+                        <code className="block mt-1 p-3 bg-surface rounded-lg text-pink-500 text-sm break-all">
                           {serverInfo?.key || '-'}
                         </code>
                       </div>
@@ -400,35 +400,35 @@ function App() {
                   ) : (
                     <form onSubmit={handleSaveServerInfo} className="space-y-4">
                       <div>
-                        <label className="text-sm text-slate-400">ID Server</label>
+                        <label className="text-sm text-text-secondary">ID Server</label>
                         <input
                           type="text"
                           value={editIdServer}
                           onChange={(e) => setEditIdServer(e.target.value)}
-                          className="w-full mt-1 px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                          className="w-full mt-1 px-4 py-2 bg-surface border border-border rounded-xl text-text focus:outline-none focus:ring-2 focus:ring-primary/50"
                         />
                       </div>
                       <div>
-                        <label className="text-sm text-slate-400">Relay Server</label>
+                        <label className="text-sm text-text-secondary">Relay Server</label>
                         <input
                           type="text"
                           value={editRelayServer}
                           onChange={(e) => setEditRelayServer(e.target.value)}
-                          className="w-full mt-1 px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                          className="w-full mt-1 px-4 py-2 bg-surface border border-border rounded-xl text-text focus:outline-none focus:ring-2 focus:ring-primary/50"
                         />
                       </div>
                       <div>
-                        <label className="text-sm text-slate-400">Key</label>
+                        <label className="text-sm text-text-secondary">Key</label>
                         <textarea
                           value={editRustdeskKey}
                           onChange={(e) => setEditRustdeskKey(e.target.value)}
                           rows={3}
-                          className="w-full mt-1 px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                          className="w-full mt-1 px-4 py-2 bg-surface border border-border rounded-xl text-text focus:outline-none focus:ring-2 focus:ring-primary/50"
                         />
                       </div>
                       <button
                         type="submit"
-                        className="w-full py-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-xl font-medium hover:opacity-90 transition-all"
+                        className="w-full py-2 bg-gradient-to-r from-primary to-info text-white rounded-xl font-medium hover:opacity-90 transition-all"
                       >
                         Salvar
                       </button>
@@ -459,30 +459,30 @@ function App() {
           <div className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-1">
-                <div className="rounded-2xl bg-slate-900/50 border border-slate-800/50 p-6">
-                  <h3 className="text-lg font-semibold text-white mb-4">
+                <div className="rounded-2xl bg-background-secondary border border-border p-6">
+                  <h3 className="text-lg font-semibold text-text mb-4">
                     {editingGroup ? 'Editar Grupo' : 'Novo Grupo'}
                   </h3>
                   <form onSubmit={handleCreateGroup} className="space-y-4">
                     <div>
-                      <label className="block text-sm text-slate-400 mb-2">Nome do Departamento</label>
+                      <label className="block text-sm text-text-secondary mb-2">Nome do Departamento</label>
                       <input
                         type="text"
                         value={newGroupName}
                         onChange={(e) => setNewGroupName(e.target.value)}
                         placeholder="Ex: RH"
-                        className="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                        className="w-full px-4 py-2 bg-surface border border-border rounded-xl text-text focus:outline-none focus:ring-2 focus:ring-primary/50"
                         required
                       />
                     </div>
                     <div>
-                      <label className="block text-sm text-slate-400 mb-2">Descrição</label>
+                      <label className="block text-sm text-text-secondary mb-2">Descrição</label>
                       <textarea
                         value={newGroupDesc}
                         onChange={(e) => setNewGroupDesc(e.target.value)}
                         placeholder="Descrição do grupo"
                         rows={3}
-                        className="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                        className="w-full px-4 py-2 bg-surface border border-border rounded-xl text-text focus:outline-none focus:ring-2 focus:ring-primary/50"
                       />
                     </div>
                     <div className="flex gap-2">
@@ -494,14 +494,14 @@ function App() {
                             setNewGroupName('');
                             setNewGroupDesc('');
                           }}
-                          className="flex-1 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-medium transition-all"
+                          className="flex-1 py-2 bg-surface hover:bg-surface-hover text-text-secondary rounded-xl font-medium transition-all"
                         >
                           Cancelar
                         </button>
                       )}
                       <button
                         type="submit"
-                        className={`py-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl font-medium hover:opacity-90 transition-all ${editingGroup ? 'flex-1' : 'w-full'}`}
+                        className={`py-2 bg-gradient-to-r from-success to-emerald-600 text-white rounded-xl font-medium hover:opacity-90 transition-all ${editingGroup ? 'flex-1' : 'w-full'}`}
                       >
                         {editingGroup ? 'Atualizar' : 'Criar Grupo'}
                       </button>
@@ -552,30 +552,30 @@ function App() {
           <div className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-1">
-                <div className="rounded-2xl bg-slate-900/50 border border-slate-800/50 p-6">
-                  <h3 className="text-lg font-semibold text-white mb-4">
+                <div className="rounded-2xl bg-background-secondary border border-border p-6">
+                  <h3 className="text-lg font-semibold text-text mb-4">
                     {editingCategory ? 'Editar Tipo' : 'Novo Tipo de Serviço'}
                   </h3>
                   <form onSubmit={handleCreateCategory} className="space-y-4">
                     <div>
-                      <label className="block text-sm text-slate-400 mb-2">Nome</label>
+                      <label className="block text-sm text-text-secondary mb-2">Nome</label>
                       <input
                         type="text"
                         value={newCategoryName}
                         onChange={(e) => setNewCategoryName(e.target.value)}
                         placeholder="Ex: Problema na impressora"
-                        className="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                        className="w-full px-4 py-2 bg-surface border border-border rounded-xl text-text focus:outline-none focus:ring-2 focus:ring-primary/50"
                         required
                       />
                     </div>
                     <div>
-                      <label className="block text-sm text-slate-400 mb-2">Descrição</label>
+                      <label className="block text-sm text-text-secondary mb-2">Descrição</label>
                       <textarea
                         value={newCategoryDesc}
                         onChange={(e) => setNewCategoryDesc(e.target.value)}
                         placeholder="Descrição da categoria"
                         rows={3}
-                        className="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                        className="w-full px-4 py-2 bg-surface border border-border rounded-xl text-text focus:outline-none focus:ring-2 focus:ring-primary/50"
                       />
                     </div>
                     <div className="flex gap-2">
@@ -587,14 +587,14 @@ function App() {
                             setNewCategoryName('');
                             setNewCategoryDesc('');
                           }}
-                          className="flex-1 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-medium transition-all"
+                          className="flex-1 py-2 bg-surface hover:bg-surface-hover text-text-secondary rounded-xl font-medium transition-all"
                         >
                           Cancelar
                         </button>
                       )}
                       <button
                         type="submit"
-                        className={`py-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl font-medium hover:opacity-90 transition-all ${editingCategory ? 'flex-1' : 'w-full'}`}
+                        className={`py-2 bg-gradient-to-r from-success to-emerald-600 text-white rounded-xl font-medium hover:opacity-90 transition-all ${editingCategory ? 'flex-1' : 'w-full'}`}
                       >
                         {editingCategory ? 'Atualizar' : 'Criar Tipo'}
                       </button>
@@ -624,47 +624,47 @@ function App() {
           <div className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-1">
-                <div className="rounded-2xl bg-slate-900/50 border border-slate-800/50 p-6">
-                  <h3 className="text-lg font-semibold text-white mb-4">Novo Usuário</h3>
+                <div className="rounded-2xl bg-background-secondary border border-border p-6">
+                  <h3 className="text-lg font-semibold text-text mb-4">Novo Usuário</h3>
                   <form onSubmit={handleCreateUser} className="space-y-4">
                     <div>
-                      <label className="block text-sm text-slate-400 mb-2">Nome de Usuário</label>
+                      <label className="block text-sm text-text-secondary mb-2">Nome de Usuário</label>
                       <input
                         type="text"
                         value={newUserName}
                         onChange={(e) => setNewUserName(e.target.value)}
                         placeholder="Nome de usuário (opcional)"
-                        className="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                        className="w-full px-4 py-2 bg-surface border border-border rounded-xl text-text focus:outline-none focus:ring-2 focus:ring-primary/50"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm text-slate-400 mb-2">E-mail</label>
+                      <label className="block text-sm text-text-secondary mb-2">E-mail</label>
                       <input
                         type="email"
                         value={newUserEmail}
                         onChange={(e) => setNewUserEmail(e.target.value)}
                         placeholder="email@exemplo.com"
-                        className="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                        className="w-full px-4 py-2 bg-surface border border-border rounded-xl text-text focus:outline-none focus:ring-2 focus:ring-primary/50"
                         required
                       />
                     </div>
                     <div>
-                      <label className="block text-sm text-slate-400 mb-2">Senha</label>
+                      <label className="block text-sm text-text-secondary mb-2">Senha</label>
                       <input
                         type="password"
                         value={newUserPass}
                         onChange={(e) => setNewUserPass(e.target.value)}
                         placeholder="********"
-                        className="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                        className="w-full px-4 py-2 bg-surface border border-border rounded-xl text-text focus:outline-none focus:ring-2 focus:ring-primary/50"
                         required
                       />
                     </div>
                     <div>
-                      <label className="block text-sm text-slate-400 mb-2">Nível</label>
+                      <label className="block text-sm text-text-secondary mb-2">Nível</label>
                       <select
                         value={newUserRole}
                         onChange={(e) => setNewUserRole(e.target.value)}
-                        className="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                        className="w-full px-4 py-2 bg-surface border border-border rounded-xl text-text focus:outline-none focus:ring-2 focus:ring-primary/50"
                       >
                         <option value="user">Usuário (Técnico)</option>
                         <option value="admin">Administrador</option>
@@ -672,7 +672,7 @@ function App() {
                     </div>
                     <button
                       type="submit"
-                      className="w-full py-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl font-medium hover:opacity-90 transition-all"
+                      className="w-full py-2 bg-gradient-to-r from-success to-emerald-600 text-white rounded-xl font-medium hover:opacity-90 transition-all"
                     >
                       Criar
                     </button>
@@ -706,8 +706,8 @@ function App() {
       
       default:
         return (
-          <div className="rounded-2xl bg-slate-900/50 border border-slate-800/50 p-6">
-            <p className="text-slate-400">Página em desenvolvimento...</p>
+          <div className="rounded-2xl bg-background-secondary border border-border p-6">
+            <p className="text-text-secondary">Página em desenvolvimento...</p>
           </div>
         );
     }
@@ -735,22 +735,22 @@ function App() {
       >
         <form onSubmit={handleSaveAlias} className="space-y-4">
           <div>
-            <label className="block text-sm text-slate-400 mb-2">Apelido (Nome amigável)</label>
+            <label className="block text-sm text-text-secondary mb-2">Apelido (Nome amigável)</label>
             <input
               type="text"
               value={newAlias}
               onChange={(e) => setNewAlias(e.target.value)}
               placeholder="Ex: PC do Suporte"
-              className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+              className="w-full px-4 py-3 bg-surface border border-border rounded-xl text-text focus:outline-none focus:ring-2 focus:ring-primary/50"
               autoFocus
             />
           </div>
           <div>
-            <label className="block text-sm text-slate-400 mb-2">Departamento / Grupo</label>
+            <label className="block text-sm text-text-secondary mb-2">Departamento / Grupo</label>
             <select
               value={newGroupId}
               onChange={(e) => setNewGroupId(e.target.value)}
-              className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+              className="w-full px-4 py-3 bg-surface border border-border rounded-xl text-text focus:outline-none focus:ring-2 focus:ring-primary/50"
             >
               <option value="">Nenhum (Geral)</option>
               {groups.map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
@@ -760,13 +760,13 @@ function App() {
             <button
               type="button"
               onClick={() => setEditingDevice(null)}
-              className="flex-1 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-medium transition-all"
+              className="flex-1 py-3 bg-surface hover:bg-surface-hover text-text-secondary rounded-xl font-medium transition-all"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              className="flex-1 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-xl font-medium hover:opacity-90 transition-all"
+              className="flex-1 py-3 bg-gradient-to-r from-primary to-info text-white rounded-xl font-medium hover:opacity-90 transition-all"
             >
               Salvar Alterações
             </button>
@@ -782,11 +782,11 @@ function App() {
       >
         <form onSubmit={handleSaveLogCategory} className="space-y-4">
           <div>
-            <label className="block text-sm text-slate-400 mb-2">Tipo de Serviço</label>
+            <label className="block text-sm text-text-secondary mb-2">Tipo de Serviço</label>
             <select
               value={selectedCategoryId}
               onChange={(e) => setSelectedCategoryId(e.target.value)}
-              className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+              className="w-full px-4 py-3 bg-surface border border-border rounded-xl text-text focus:outline-none focus:ring-2 focus:ring-primary/50"
             >
               <option value="">Não classificado</option>
               {serviceCategories.map(cat => <option key={cat.id} value={cat.id}>{cat.name}</option>)}
@@ -796,13 +796,13 @@ function App() {
             <button
               type="button"
               onClick={() => setEditingLog(null)}
-              className="flex-1 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-medium transition-all"
+              className="flex-1 py-3 bg-surface hover:bg-surface-hover text-text-secondary rounded-xl font-medium transition-all"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              className="flex-1 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-xl font-medium hover:opacity-90 transition-all"
+              className="flex-1 py-3 bg-gradient-to-r from-primary to-info text-white rounded-xl font-medium hover:opacity-90 transition-all"
             >
               Salvar
             </button>
@@ -818,38 +818,38 @@ function App() {
       >
         <form onSubmit={handleSaveUser} className="space-y-4">
           <div>
-            <label className="block text-sm text-slate-400 mb-2">Nome de Usuário</label>
+            <label className="block text-sm text-text-secondary mb-2">Nome de Usuário</label>
             <input
               type="text"
               value={editUserName}
               onChange={(e) => setEditUserName(e.target.value)}
-              className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+              className="w-full px-4 py-3 bg-surface border border-border rounded-xl text-text focus:outline-none focus:ring-2 focus:ring-primary/50"
             />
           </div>
           <div>
-            <label className="block text-sm text-slate-400 mb-2">E-mail</label>
+            <label className="block text-sm text-text-secondary mb-2">E-mail</label>
             <input
               type="email"
               value={editUserEmail}
               onChange={(e) => setEditUserEmail(e.target.value)}
-              className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+              className="w-full px-4 py-3 bg-surface border border-border rounded-xl text-text focus:outline-none focus:ring-2 focus:ring-primary/50"
             />
           </div>
           <div>
-            <label className="block text-sm text-slate-400 mb-2">Nova Senha (opcional)</label>
+            <label className="block text-sm text-text-secondary mb-2">Nova Senha (opcional)</label>
             <input
               type="password"
               value={editUserPass}
               onChange={(e) => setEditUserPass(e.target.value)}
-              className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+              className="w-full px-4 py-3 bg-surface border border-border rounded-xl text-text focus:outline-none focus:ring-2 focus:ring-primary/50"
             />
           </div>
           <div>
-            <label className="block text-sm text-slate-400 mb-2">Nível</label>
+            <label className="block text-sm text-text-secondary mb-2">Nível</label>
             <select
               value={editUserRole}
               onChange={(e) => setEditUserRole(e.target.value)}
-              className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+              className="w-full px-4 py-3 bg-surface border border-border rounded-xl text-text focus:outline-none focus:ring-2 focus:ring-primary/50"
             >
               <option value="user">Usuário (Técnico)</option>
               <option value="admin">Administrador</option>
@@ -859,13 +859,13 @@ function App() {
             <button
               type="button"
               onClick={() => setEditingUser(null)}
-              className="flex-1 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-medium transition-all"
+              className="flex-1 py-3 bg-surface hover:bg-surface-hover text-text-secondary rounded-xl font-medium transition-all"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              className="flex-1 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-xl font-medium hover:opacity-90 transition-all"
+              className="flex-1 py-3 bg-gradient-to-r from-primary to-info text-white rounded-xl font-medium hover:opacity-90 transition-all"
             >
               Salvar
             </button>

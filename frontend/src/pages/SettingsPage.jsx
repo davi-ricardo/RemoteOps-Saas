@@ -86,54 +86,32 @@ const SettingsPage = ({ currentUser, setCurrentUser }) => {
       {/* Profile Section */}
       <SettingsSection icon="👤" title="Perfil">
         <div className="flex items-center gap-4">
-          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center text-2xl font-bold text-white">
+          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary to-info flex items-center justify-center text-2xl font-bold text-white">
             {currentUser?.username?.[0]?.toUpperCase() || "U"}
           </div>
           <div className="flex-1">
-            <h4 className="text-xl font-semibold text-[var(--text-primary)]">
+            <h4 className="text-xl font-semibold text-text">
               {currentUser?.username || "Usuário"}
             </h4>
-            <p className="text-sm text-[var(--text-secondary)]">{currentUser?.email}</p>
+            <p className="text-sm text-text-secondary">{currentUser?.email}</p>
             {currentUser?.cargo && (
-              <p className="text-sm text-[var(--text-secondary)]">{currentUser.cargo}</p>
+              <p className="text-sm text-text-secondary">{currentUser.cargo}</p>
             )}
-            <p className="text-xs text-[var(--text-muted)] capitalize mt-1">
+            <p className="text-xs text-text-muted capitalize mt-1">
               {currentUser?.role}
             </p>
           </div>
           <button
             type="button"
             onClick={() => setEditingProfile(true)}
-            className="px-4 py-2 bg-[var(--bg-tertiary)] hover:bg-[var(--bg-hover)] text-[var(--text-secondary)] rounded-xl font-medium transition-all"
+            className="px-4 py-2 bg-surface hover:bg-surface-hover text-text-secondary rounded-xl font-medium transition-all"
           >
             Editar Perfil
           </button>
         </div>
       </SettingsSection>
 
-      {/* Appearance Section */}
-      <SettingsSection icon="🎨" title="Aparência">
-        <SettingsRadioGroup
-          label="Tema"
-          options={[
-            { label: "Claro", value: "light" },
-            { label: "Escuro", value: "dark" },
-            { label: "Sistema", value: "system" },
-          ]}
-          value={preferences.theme}
-          onChange={(value) => savePreferences({ theme: value })}
-        />
 
-        <SettingsRadioGroup
-          label="Barra Lateral"
-          options={[
-            { label: "Expandida", value: "expanded" },
-            { label: "Compacta", value: "compact" },
-          ]}
-          value={preferences.sidebar}
-          onChange={(value) => savePreferences({ sidebar: value })}
-        />
-      </SettingsSection>
 
       {/* Security Section */}
       <SettingsSection icon="🔐" title="Segurança">
@@ -141,16 +119,16 @@ const SettingsPage = ({ currentUser, setCurrentUser }) => {
           <button
             type="button"
             onClick={() => setChangingPassword(true)}
-            className="w-full text-left px-4 py-3 bg-[var(--bg-tertiary)] hover:bg-[var(--bg-hover)] rounded-xl text-[var(--text-secondary)] font-medium transition-all"
+            className="w-full text-left px-4 py-3 bg-surface hover:bg-surface-hover rounded-xl text-text-secondary font-medium transition-all"
           >
             Alterar Senha
           </button>
 
           {currentUser?.last_login && (
-            <div className="text-sm text-[var(--text-secondary)]">
+            <div className="text-sm text-text-secondary">
               <p>
                 Último login:{" "}
-                <span className="text-[var(--text-secondary)]">
+                <span className="text-text-secondary">
                   {new Date(currentUser.last_login).toLocaleString("pt-BR")}
                 </span>
               </p>
@@ -195,7 +173,7 @@ const SettingsPage = ({ currentUser, setCurrentUser }) => {
       <SettingsSection icon="🖥️" title="Preferências">
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
+            <label className="block text-sm font-medium text-text-secondary mb-2">
               Página Inicial
             </label>
             <select
@@ -203,7 +181,7 @@ const SettingsPage = ({ currentUser, setCurrentUser }) => {
               onChange={(e) =>
                 savePreferences({ homePage: e.target.value })
               }
-              className="w-full px-4 py-2 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-xl text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+              className="w-full px-4 py-2 bg-surface border border-border rounded-xl text-text focus:outline-none focus:ring-2 focus:ring-primary/50"
             >
               <option value="home">Dashboard</option>
               <option value="devices">Dispositivos</option>
@@ -212,7 +190,7 @@ const SettingsPage = ({ currentUser, setCurrentUser }) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
+            <label className="block text-sm font-medium text-text-secondary mb-2">
               Itens por Página
             </label>
             <select
@@ -220,7 +198,7 @@ const SettingsPage = ({ currentUser, setCurrentUser }) => {
               onChange={(e) =>
                 savePreferences({ itemsPerPage: e.target.value })
               }
-              className="w-full px-4 py-2 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-xl text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+              className="w-full px-4 py-2 bg-surface border border-border rounded-xl text-text focus:outline-none focus:ring-2 focus:ring-primary/50"
             >
               <option value="25">25</option>
               <option value="50">50</option>
@@ -229,7 +207,7 @@ const SettingsPage = ({ currentUser, setCurrentUser }) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
+            <label className="block text-sm font-medium text-text-secondary mb-2">
               Ordenação Padrão
             </label>
             <select
@@ -237,7 +215,7 @@ const SettingsPage = ({ currentUser, setCurrentUser }) => {
               onChange={(e) =>
                 savePreferences({ defaultSort: e.target.value })
               }
-              className="w-full px-4 py-2 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-xl text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+              className="w-full px-4 py-2 bg-surface border border-border rounded-xl text-text focus:outline-none focus:ring-2 focus:ring-primary/50"
             >
               <option value="newest">Mais recentes primeiro</option>
               <option value="oldest">Mais antigos primeiro</option>
@@ -250,17 +228,17 @@ const SettingsPage = ({ currentUser, setCurrentUser }) => {
       {appInfo && (
         <SettingsSection icon="ℹ️" title="Sobre">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="text-sm text-[var(--text-secondary)]">
-              <p className="text-[var(--text-secondary)] font-semibold">
+            <div className="text-sm text-text-secondary">
+              <p className="text-text-secondary font-semibold">
                 {appInfo.name}
               </p>
-              <p className="text-[var(--text-muted)]">Versão {appInfo.version}</p>
+              <p className="text-text-muted">Versão {appInfo.version}</p>
             </div>
-            <div className="text-sm text-[var(--text-secondary)]">
-              <p>Frontend: <span className="text-[var(--text-secondary)]">{appInfo.frontend}</span></p>
-              <p>Backend: <span className="text-[var(--text-secondary)]">{appInfo.backend}</span></p>
-              <p>Banco de Dados: <span className="text-[var(--text-secondary)]">{appInfo.database}</span></p>
-              <p>Última Atualização: <span className="text-[var(--text-secondary)]">{appInfo.lastUpdated}</span></p>
+            <div className="text-sm text-text-secondary">
+              <p>Frontend: <span className="text-text-secondary">{appInfo.frontend}</span></p>
+              <p>Backend: <span className="text-text-secondary">{appInfo.backend}</span></p>
+              <p>Banco de Dados: <span className="text-text-secondary">{appInfo.database}</span></p>
+              <p>Última Atualização: <span className="text-text-secondary">{appInfo.lastUpdated}</span></p>
             </div>
           </div>
         </SettingsSection>
@@ -274,60 +252,60 @@ const SettingsPage = ({ currentUser, setCurrentUser }) => {
       >
         <form onSubmit={handleUpdateProfile} className="space-y-4">
           <div>
-            <label className="block text-sm text-[var(--text-secondary)] mb-2">Nome de Usuário</label>
+            <label className="block text-sm text-text-secondary mb-2">Nome de Usuário</label>
             <input
               type="text"
               value={profileForm.username}
               onChange={(e) =>
                 setProfileForm({ ...profileForm, username: e.target.value })
               }
-              className="w-full px-4 py-2 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-xl text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+              className="w-full px-4 py-2 bg-surface border border-border rounded-xl text-text focus:outline-none focus:ring-2 focus:ring-primary/50"
             />
           </div>
           <div>
-            <label className="block text-sm text-[var(--text-secondary)] mb-2">E-mail</label>
+            <label className="block text-sm text-text-secondary mb-2">E-mail</label>
             <input
               type="email"
               value={profileForm.email}
               onChange={(e) =>
                 setProfileForm({ ...profileForm, email: e.target.value })
               }
-              className="w-full px-4 py-2 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-xl text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+              className="w-full px-4 py-2 bg-surface border border-border rounded-xl text-text focus:outline-none focus:ring-2 focus:ring-primary/50"
             />
           </div>
           <div>
-            <label className="block text-sm text-[var(--text-secondary)] mb-2">Cargo</label>
+            <label className="block text-sm text-text-secondary mb-2">Cargo</label>
             <input
               type="text"
               value={profileForm.cargo}
               onChange={(e) =>
                 setProfileForm({ ...profileForm, cargo: e.target.value })
               }
-              className="w-full px-4 py-2 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-xl text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+              className="w-full px-4 py-2 bg-surface border border-border rounded-xl text-text focus:outline-none focus:ring-2 focus:ring-primary/50"
             />
           </div>
           <div>
-            <label className="block text-sm text-[var(--text-secondary)] mb-2">URL do Avatar (opcional)</label>
+            <label className="block text-sm text-text-secondary mb-2">URL do Avatar (opcional)</label>
             <input
               type="text"
               value={profileForm.avatar_url}
               onChange={(e) =>
                 setProfileForm({ ...profileForm, avatar_url: e.target.value })
               }
-              className="w-full px-4 py-2 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-xl text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+              className="w-full px-4 py-2 bg-surface border border-border rounded-xl text-text focus:outline-none focus:ring-2 focus:ring-primary/50"
             />
           </div>
           <div className="flex gap-2 pt-2">
             <button
               type="button"
               onClick={() => setEditingProfile(false)}
-              className="flex-1 py-2 bg-[var(--bg-tertiary)] hover:bg-[var(--bg-hover)] text-[var(--text-secondary)] rounded-xl font-medium transition-all"
+              className="flex-1 py-2 bg-surface hover:bg-surface-hover text-text-secondary rounded-xl font-medium transition-all"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              className="flex-1 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-xl font-medium hover:opacity-90 transition-all"
+              className="flex-1 py-2 bg-gradient-to-r from-primary to-info text-white rounded-xl font-medium hover:opacity-90 transition-all"
             >
               Salvar
             </button>
@@ -343,38 +321,38 @@ const SettingsPage = ({ currentUser, setCurrentUser }) => {
       >
         <form onSubmit={handleChangePassword} className="space-y-4">
           <div>
-            <label className="block text-sm text-[var(--text-secondary)] mb-2">Senha Atual</label>
+            <label className="block text-sm text-text-secondary mb-2">Senha Atual</label>
             <input
               type="password"
               value={passwordForm.currentPassword}
               onChange={(e) =>
                 setPasswordForm({ ...passwordForm, currentPassword: e.target.value })
               }
-              className="w-full px-4 py-2 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-xl text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+              className="w-full px-4 py-2 bg-surface border border-border rounded-xl text-text focus:outline-none focus:ring-2 focus:ring-primary/50"
               required
             />
           </div>
           <div>
-            <label className="block text-sm text-[var(--text-secondary)] mb-2">Nova Senha</label>
+            <label className="block text-sm text-text-secondary mb-2">Nova Senha</label>
             <input
               type="password"
               value={passwordForm.newPassword}
               onChange={(e) =>
                 setPasswordForm({ ...passwordForm, newPassword: e.target.value })
               }
-              className="w-full px-4 py-2 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-xl text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+              className="w-full px-4 py-2 bg-surface border border-border rounded-xl text-text focus:outline-none focus:ring-2 focus:ring-primary/50"
               required
             />
           </div>
           <div>
-            <label className="block text-sm text-[var(--text-secondary)] mb-2">Confirmar Nova Senha</label>
+            <label className="block text-sm text-text-secondary mb-2">Confirmar Nova Senha</label>
             <input
               type="password"
               value={passwordForm.confirmPassword}
               onChange={(e) =>
                 setPasswordForm({ ...passwordForm, confirmPassword: e.target.value })
               }
-              className="w-full px-4 py-2 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-xl text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+              className="w-full px-4 py-2 bg-surface border border-border rounded-xl text-text focus:outline-none focus:ring-2 focus:ring-primary/50"
               required
             />
           </div>
@@ -382,13 +360,13 @@ const SettingsPage = ({ currentUser, setCurrentUser }) => {
             <button
               type="button"
               onClick={() => setChangingPassword(false)}
-              className="flex-1 py-2 bg-[var(--bg-tertiary)] hover:bg-[var(--bg-hover)] text-[var(--text-secondary)] rounded-xl font-medium transition-all"
+              className="flex-1 py-2 bg-surface hover:bg-surface-hover text-text-secondary rounded-xl font-medium transition-all"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              className="flex-1 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-xl font-medium hover:opacity-90 transition-all"
+              className="flex-1 py-2 bg-gradient-to-r from-primary to-info text-white rounded-xl font-medium hover:opacity-90 transition-all"
             >
               Alterar Senha
             </button>

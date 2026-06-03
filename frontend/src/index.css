@@ -2,42 +2,94 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Tema padrão (escuro) - NÃO ALTERAR */
+/* Tema Escuro (Padrão) */
 :root {
-  --bg-primary: #0f172a; /* slate-950 */
-  --bg-secondary: rgba(15, 23, 42, 0.5); /* slate-900/50 */
-  --bg-tertiary: #1e293b; /* slate-800 */
-  --bg-hover: #334155; /* slate-700 */
-  --border-color: rgba(51, 65, 85, 0.5); /* slate-700/50 */
-  --text-primary: #f9fafb; /* white */
-  --text-secondary: #94a3b8; /* slate-400 */
-  --text-muted: #64748b; /* slate-500 */
-  --card-bg: rgba(30, 41, 59, 0.5); /* slate-800/50 */
-  --accent-primary: #3b82f6; /* blue-500 */
-  --accent-secondary: #06b6d4; /* cyan-500 */
+  /* Background */
+  --color-background: #0f172a;
+  --color-background-secondary: rgba(15, 23, 42, 0.5);
+  
+  /* Surface */
+  --color-surface: #1e293b;
+  --color-surface-hover: #334155;
+  --color-surface-elevated: rgba(30, 41, 59, 0.5);
+  
+  /* Borders */
+  --color-border: rgba(51, 65, 85, 0.5);
+  --color-border-hover: #475569;
+  
+  /* Text */
+  --color-text: #f9fafb;
+  --color-text-secondary: #94a3b8;
+  --color-text-muted: #64748b;
+  
+  /* Actions */
+  --color-primary: #3b82f6;
+  --color-primary-hover: #2563eb;
+  
+  /* Status */
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  --color-info: #06b6d4;
+  
+  /* Sidebar */
+  --color-sidebar-background: rgba(15, 23, 42, 0.5);
+  --color-sidebar-surface: rgba(30, 41, 59, 0.3);
+  --color-sidebar-text: #94a3b8;
+  --color-sidebar-active: #3b82f6;
+  
+  /* Topbar */
+  --color-topbar-background: rgba(15, 23, 42, 0.5);
+  --color-topbar-border: rgba(51, 65, 85, 0.5);
 }
 
-/* Tema claro - ATUALIZADO */
+/* Tema Claro */
 .light {
-  --bg-primary: #f1f5f9; /* slate-100 (fundo principal mais agradável) */
-  --bg-secondary: #ffffff; /* white */
-  --bg-tertiary: #f8fafc; /* slate-50 */
-  --bg-hover: #e2e8f0; /* slate-200 */
-  --border-color: #e2e8f0; /* slate-200 */
-  --text-primary: #0f172a; /* slate-900 */
-  --text-secondary: #475569; /* slate-600 */
-  --text-muted: #94a3b8; /* slate-400 */
-  --card-bg: #ffffff; /* white */
-  --accent-primary: #2563eb; /* blue-600 (menos saturado) */
-  --accent-secondary: #0891b2; /* cyan-600 (menos saturado) */
+  /* Background */
+  --color-background: #f8fafc;
+  --color-background-secondary: #ffffff;
+  
+  /* Surface */
+  --color-surface: #f1f5f9;
+  --color-surface-hover: #e2e8f0;
+  --color-surface-elevated: #ffffff;
+  
+  /* Borders */
+  --color-border: #e2e8f0;
+  --color-border-hover: #cbd5e1;
+  
+  /* Text */
+  --color-text: #0f172a;
+  --color-text-secondary: #64748b;
+  --color-text-muted: #94a3b8;
+  
+  /* Actions */
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  
+  /* Status */
+  --color-success: #16a34a;
+  --color-warning: #d97706;
+  --color-danger: #dc2626;
+  --color-info: #0891b2;
+  
+  /* Sidebar */
+  --color-sidebar-background: #ffffff;
+  --color-sidebar-surface: #f8fafc;
+  --color-sidebar-text: #64748b;
+  --color-sidebar-active: #2563eb;
+  
+  /* Topbar */
+  --color-topbar-background: #ffffff;
+  --color-topbar-border: #e2e8f0;
 }
 
 /* Aplicar variáveis CSS aos elementos */
 body {
   margin: 0;
   padding: 0;
-  background-color: var(--bg-primary);
-  color: var(--text-secondary);
+  background-color: var(--color-background);
+  color: var(--color-text-secondary);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -53,14 +105,14 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-tertiary);
+  background: var(--color-surface);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--text-muted);
+  background: var(--color-text-muted);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--text-secondary);
+  background: var(--color-text-secondary);
 }

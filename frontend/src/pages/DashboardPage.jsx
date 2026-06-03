@@ -34,9 +34,9 @@ const DashboardPage = ({ devices, users, todayConnections }) => {
       </div>
       
       {/* Welcome Message */}
-      <div className="p-6 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)]">
-        <h2 className="text-xl font-bold text-[var(--text-primary)] mb-2">Bem-vindo ao RemoteOps!</h2>
-        <p className="text-[var(--text-secondary)]">Gerencie seus dispositivos, usuários e relatórios de forma centralizada.</p>
+      <div className="p-6 rounded-2xl bg-background-secondary border border-border">
+        <h2 className="text-xl font-bold text-text mb-2">Bem-vindo ao RemoteOps!</h2>
+        <p className="text-text-secondary">Gerencie seus dispositivos, usuários e relatórios de forma centralizada.</p>
       </div>
     </div>
   );
