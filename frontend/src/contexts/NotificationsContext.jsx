@@ -1,7 +1,15 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState } from "react";
 import { usePreferences } from "./PreferencesContext";
 
 const NotificationsContext = createContext();
+
+// Mapeia tipo de notificação para chave de preferência
+const typeToPrefKey = {
+  new_report: "notifNewReport",
+  system_update: "notifSystemUpdates",
+  admin_alert: "notifAdminAlerts",
+  permission_change: "notifPermissionChanges"
+};
 
 // Mock notifications for testing
 const mockNotifications = [
@@ -15,7 +23,10 @@ export const NotificationsProvider = ({ children }) => {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const { preferences } = usePreferences();
 
-  const unreadCount = notifications.filter((n) => !n.read && preferences[`notif${n.type.charAt(0).toUpperCase() + n.type.slice(1)}`] !== false).length;
+  const unreadCount = notifications.filter((n) => {
+    const prefKey = typeToPrefKey[n.type];
+    return !n.read && preferences[prefKey] !== false;
+  }).length;
 
   const markAsRead = (id) => {
     setNotifications((prev) =>

@@ -1,6 +1,14 @@
 import { useNotifications } from "../contexts/NotificationsContext";
 import { usePreferences } from "../contexts/PreferencesContext";
 
+// Mapeia tipo de notificação para chave de preferência (mesmo que no NotificationsContext)
+const typeToPrefKey = {
+  new_report: "notifNewReport",
+  system_update: "notifSystemUpdates",
+  admin_alert: "notifAdminAlerts",
+  permission_change: "notifPermissionChanges"
+};
+
 const Topbar = ({ title, onLogout, isSidebarCompact }) => {
   const {
     notifications,
@@ -13,7 +21,10 @@ const Topbar = ({ title, onLogout, isSidebarCompact }) => {
   const { preferences } = usePreferences();
 
   const filteredNotifications = notifications.filter(
-    (n) => preferences[`notif${n.type.charAt(0).toUpperCase() + n.type.slice(1)}`] !== false
+    (n) => {
+      const prefKey = typeToPrefKey[n.type];
+      return preferences[prefKey] !== false;
+    }
   );
 
   return (

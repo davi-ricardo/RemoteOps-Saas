@@ -10,11 +10,20 @@ import UsersTable from './components/UsersTable';
 import ServiceCategoriesTable from './components/ServiceCategoriesTable';
 import Modal from './components/Modal';
 import SettingsPage from './pages/SettingsPage';
+import { usePreferences } from './contexts/PreferencesContext';
 
 function App() {
+  const { preferences } = usePreferences();
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('currentUser') || 'null'));
-  const [activeTab, setActiveTab] = useState('home');
+  const [activeTab, setActiveTab] = useState(() => {
+    const saved = localStorage.getItem('userPreferences');
+    if (saved) {
+      const prefs = JSON.parse(saved);
+      return prefs.homePage || 'home';
+    }
+    return 'home';
+  });
   const [devices, setDevices] = useState([]);
   const [groups, setGroups] = useState([]);
   const [reports, setReports] = useState([]);
@@ -291,6 +300,13 @@ function App() {
       alert('Erro ao excluir categoria: ' + (err.response?.data?.error || err.message)); 
     }
   };
+
+  // Atualiza activeTab quando a preferência de homePage muda
+  useEffect(() => {
+    if (preferences.homePage) {
+      setActiveTab(preferences.homePage);
+    }
+  }, [preferences.homePage]);
 
   useEffect(() => {
     if (token) {

@@ -5,12 +5,25 @@ const PreferencesContext = createContext();
 export const PreferencesProvider = ({ children }) => {
   const [preferences, setPreferences] = useState(() => {
     const saved = localStorage.getItem("userPreferences");
-    return saved
-      ? JSON.parse(saved)
-      : {
-          theme: "system",
-          sidebar: "expanded",
-        };
+    const defaults = {
+      theme: "system",
+      sidebar: "expanded",
+      homePage: "home",
+      itemsPerPage: "25",
+      defaultSort: "newest",
+      notifNewReport: true,
+      notifSystemUpdates: true,
+      notifAdminAlerts: true,
+      notifPermissionChanges: true
+    };
+    if (saved) {
+      try {
+        return { ...defaults, ...JSON.parse(saved) };
+      } catch (e) {
+        return defaults;
+      }
+    }
+    return defaults;
   });
 
   // Aplicar tema automaticamente quando preferences mudar
