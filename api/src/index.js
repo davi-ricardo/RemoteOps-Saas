@@ -6,6 +6,7 @@ const rustdeskRoutes = require("./routes/rustdesk");
 const userRoutes = require("./routes/users");
 const groupRoutes = require("./routes/groups");
 const serviceCategoriesRoutes = require("./routes/serviceCategories");
+const userPreferencesRoutes = require("./routes/userPreferences");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -44,9 +45,22 @@ if (process.env.LOG_REQUESTS === "1") {
 // Routes (ordem importante: rotas específicas antes da rota coringa do RustDesk!)
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/user-preferences", userPreferencesRoutes);
 app.use("/api/groups", groupRoutes);
 app.use("/api/service-categories", serviceCategoriesRoutes);
 app.use("/api", rustdeskRoutes);
+
+// App info endpoint
+app.get("/api/app-info", (req, res) => {
+  res.json({
+    name: "RemoteOps SaaS",
+    version: "0.8.1",
+    frontend: "React + Vite",
+    backend: "Node.js + Express",
+    database: "PostgreSQL",
+    lastUpdated: "2026-06-02"
+  });
+});
 
 // Database initialization
 const db = require("./db");
@@ -61,6 +75,9 @@ const initDb = async () => {
         password VARCHAR(255) NOT NULL,
         role VARCHAR(20) DEFAULT 'user',
         is_active BOOLEAN DEFAULT true,
+        avatar_url TEXT,
+        cargo TEXT,
+        last_login TIMESTAMPTZ,
         created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
       );
     `);
@@ -70,7 +87,22 @@ const initDb = async () => {
       await db.query("ALTER TABLE users ADD COLUMN IF NOT EXISTS role VARCHAR(20) DEFAULT 'user'");
       await db.query("ALTER TABLE users ADD COLUMN IF NOT EXISTS username VARCHAR(50) UNIQUE");
       await db.query("ALTER TABLE users ADD COLUMN IF NOT EXISTS is_active BOOLEAN DEFAULT true");
+      await db.query("ALTER TABLE users ADD COLUMN IF NOT EXISTS avatar_url TEXT");
+      await db.query("ALTER TABLE users ADD COLUMN IF NOT EXISTS cargo TEXT");
+      await db.query("ALTER TABLE users ADD COLUMN IF NOT EXISTS last_login TIMESTAMPTZ");
     } catch (e) {}
+
+    // Cria tabela de preferências do usuário
+    await db.query(`
+      CREATE TABLE IF NOT EXISTS user_preferences (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+        key VARCHAR(100) NOT NULL,
+        value TEXT NOT NULL,
+        updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(user_id, key)
+      );
+    `);
     
     await db.query(`
       CREATE TABLE IF NOT EXISTS app_settings (

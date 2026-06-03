@@ -2,16 +2,44 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Tema padrão (escuro) */
+:root {
+  --bg-primary: #0f172a; /* slate-950 */
+  --bg-secondary: rgba(15, 23, 42, 0.5); /* slate-900/50 */
+  --bg-tertiary: #1e293b; /* slate-800 */
+  --bg-hover: #334155; /* slate-700 */
+  --border-color: rgba(51, 65, 85, 0.5); /* slate-700/50 */
+  --text-primary: #f9fafb; /* white */
+  --text-secondary: #94a3b8; /* slate-400 */
+  --text-muted: #64748b; /* slate-500 */
+  --card-bg: rgba(30, 41, 59, 0.5); /* slate-800/50 */
+}
+
+/* Tema claro */
+.light {
+  --bg-primary: #fafbfc;
+  --bg-secondary: rgba(255, 255, 255, 0.7);
+  --bg-tertiary: #f1f5f9; /* slate-100 */
+  --bg-hover: #e2e8f0; /* slate-200 */
+  --border-color: rgba(226, 232, 240, 0.8); /* slate-200/80 */
+  --text-primary: #1e293b; /* slate-800 */
+  --text-secondary: #64748b; /* slate-500 */
+  --text-muted: #94a3b8; /* slate-400 */
+  --card-bg: rgba(255, 255, 255, 0.8);
+}
+
+/* Aplicar variáveis CSS aos elementos */
 body {
   margin: 0;
   padding: 0;
-  background-color: #0f172a;
-  color: #e5e7eb;
+  background-color: var(--bg-primary);
+  color: var(--text-secondary);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 /* Custom scrollbar */
@@ -21,14 +49,14 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #111827;
+  background: var(--bg-tertiary);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #374151;
+  background: var(--text-muted);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #4b5563;
+  background: var(--text-secondary);
 }

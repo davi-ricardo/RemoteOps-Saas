@@ -9,6 +9,7 @@ import ReportsTable from './components/ReportsTable';
 import UsersTable from './components/UsersTable';
 import ServiceCategoriesTable from './components/ServiceCategoriesTable';
 import Modal from './components/Modal';
+import SettingsPage from './pages/SettingsPage';
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token'));
@@ -674,10 +675,10 @@ function App() {
       
       case 'settings':
         return (
-          <div className="rounded-2xl bg-slate-900/50 border border-slate-800/50 p-6">
-            <h3 className="text-lg font-semibold text-white mb-4">Configurações</h3>
-            <p className="text-slate-400">Página de configurações em desenvolvimento...</p>
-          </div>
+          <SettingsPage 
+            currentUser={currentUser} 
+            setCurrentUser={setCurrentUser} 
+          />
         );
       
       default:

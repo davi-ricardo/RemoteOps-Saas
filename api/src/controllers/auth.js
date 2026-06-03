@@ -18,13 +18,27 @@ exports.login = async (req, res) => {
         return res.status(403).json({ error: "User is disabled" });
       }
       
+      // Atualiza last_login
+      await db.query("UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = $1", [user.id]);
+      
       const token = jwt.sign(
         { userId: user.id, role: user.role },
         process.env.JWT_SECRET || "supersecretkey",
         { expiresIn: "1d" }
       );
 
-      return res.json({ token, user: { id: user.id, email: user.email, role: user.role, username: user.username } });
+      return res.json({ 
+        token, 
+        user: { 
+          id: user.id, 
+          email: user.email, 
+          role: user.role, 
+          username: user.username,
+          avatar_url: user.avatar_url,
+          cargo: user.cargo,
+          last_login: user.last_login
+        } 
+      });
     }
 
     return res.status(401).json({ error: "Invalid credentials" });
