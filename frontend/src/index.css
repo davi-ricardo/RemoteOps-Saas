@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Tema padrão (escuro) */
+/* Tema padrão (escuro) - NÃO ALTERAR */
 :root {
   --bg-primary: #0f172a; /* slate-950 */
   --bg-secondary: rgba(15, 23, 42, 0.5); /* slate-900/50 */
@@ -13,19 +13,23 @@
   --text-secondary: #94a3b8; /* slate-400 */
   --text-muted: #64748b; /* slate-500 */
   --card-bg: rgba(30, 41, 59, 0.5); /* slate-800/50 */
+  --accent-primary: #3b82f6; /* blue-500 */
+  --accent-secondary: #06b6d4; /* cyan-500 */
 }
 
-/* Tema claro */
+/* Tema claro - ATUALIZADO */
 .light {
-  --bg-primary: #fafbfc;
-  --bg-secondary: rgba(255, 255, 255, 0.7);
-  --bg-tertiary: #f1f5f9; /* slate-100 */
+  --bg-primary: #f1f5f9; /* slate-100 (fundo principal mais agradável) */
+  --bg-secondary: #ffffff; /* white */
+  --bg-tertiary: #f8fafc; /* slate-50 */
   --bg-hover: #e2e8f0; /* slate-200 */
-  --border-color: rgba(226, 232, 240, 0.8); /* slate-200/80 */
-  --text-primary: #1e293b; /* slate-800 */
-  --text-secondary: #64748b; /* slate-500 */
+  --border-color: #e2e8f0; /* slate-200 */
+  --text-primary: #0f172a; /* slate-900 */
+  --text-secondary: #475569; /* slate-600 */
   --text-muted: #94a3b8; /* slate-400 */
-  --card-bg: rgba(255, 255, 255, 0.8);
+  --card-bg: #ffffff; /* white */
+  --accent-primary: #2563eb; /* blue-600 (menos saturado) */
+  --accent-secondary: #0891b2; /* cyan-600 (menos saturado) */
 }
 
 /* Aplicar variáveis CSS aos elementos */

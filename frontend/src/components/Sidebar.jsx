@@ -1,4 +1,9 @@
+import { usePreferences } from '../contexts/PreferencesContext';
+
 const Sidebar = ({ activeTab, setActiveTab, currentUser, isCompact }) => {
+  const { preferences } = usePreferences();
+  const isLight = preferences.theme === 'light' || (preferences.theme === 'system' && !window.matchMedia('(prefers-color-scheme: dark)').matches);
+  
   const menuItems = [
     { id: 'home', label: 'Dashboard', icon: '🏠' },
     { id: 'devices', label: 'Dispositivos', icon: '🖥️' },
@@ -34,7 +39,9 @@ const Sidebar = ({ activeTab, setActiveTab, currentUser, isCompact }) => {
             onClick={() => setActiveTab(item.id)}
             className={`w-full flex items-center ${isCompact ? "justify-center" : "gap-3"} px-4 py-3 rounded-xl transition-all duration-200 ${
               activeTab === item.id
-                ? 'bg-gradient-to-r from-blue-600/20 to-cyan-600/20 border border-blue-500/30 text-blue-400 shadow-glow-blue'
+                ? (isLight 
+                  ? 'bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/30 text-blue-600 shadow-lg shadow-blue-500/10' 
+                  : 'bg-gradient-to-r from-blue-600/20 to-cyan-600/20 border border-blue-500/30 text-blue-400 shadow-glow-blue')
                 : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-tertiary)]/50'
             }`}
             title={isCompact ? item.label : undefined}
