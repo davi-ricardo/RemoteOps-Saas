@@ -17,6 +17,7 @@ const Topbar = ({ title, onLogout, isSidebarCompact }) => {
     setIsPanelOpen,
     markAsRead,
     markAllAsRead,
+    clearAllNotifications,
   } = useNotifications();
   const { preferences, savePreferences } = usePreferences();
 
@@ -77,16 +78,26 @@ const Topbar = ({ title, onLogout, isSidebarCompact }) => {
               onClick={() => setIsPanelOpen(false)}
             />
             <div className="absolute top-14 right-0 w-80 bg-background-secondary border border-border rounded-xl shadow-xl z-50 max-h-96 overflow-y-auto">
-              <div className="p-4 border-b border-border flex justify-between items-center">
+              <div className="p-4 border-b border-border flex justify-between items-center gap-2">
                 <h3 className="text-lg font-semibold text-text">Notificações</h3>
-                {unreadCount > 0 && (
-                  <button
-                    onClick={() => markAllAsRead()}
-                    className="text-sm text-primary hover:text-primary-hover transition-all"
-                  >
-                    Marcar todas como lidas
-                  </button>
-                )}
+                <div className="flex gap-3">
+                  {unreadCount > 0 && (
+                    <button
+                      onClick={() => markAllAsRead()}
+                      className="text-sm text-primary hover:text-primary-hover transition-all"
+                    >
+                      Marcar todas como lidas
+                    </button>
+                  )}
+                  {filteredNotifications.length > 0 && (
+                    <button
+                      onClick={() => clearAllNotifications()}
+                      className="text-sm text-danger hover:text-danger transition-all"
+                    >
+                      Limpar todas
+                    </button>
+                  )}
+                </div>
               </div>
               
               <div className="p-2">

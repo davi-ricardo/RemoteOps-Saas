@@ -45,6 +45,10 @@ export const NotificationsProvider = ({ children }) => {
     ]);
   };
 
+  const clearAllNotifications = () => {
+    setNotifications([]);
+  };
+
   return (
     <NotificationsContext.Provider
       value={{
@@ -55,6 +59,7 @@ export const NotificationsProvider = ({ children }) => {
         markAsRead,
         markAllAsRead,
         addNotification,
+        clearAllNotifications,
       }}
     >
       {children}

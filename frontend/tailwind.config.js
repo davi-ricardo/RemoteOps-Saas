@@ -37,7 +37,7 @@ export default {
         'slate-card': '#111827',
       },
       boxShadow: {
-        'glow-blue': '0 0 20px rgba(59, 130, 246, 0.4)',
+        'glow-blue': '0 0 40px rgba(59, 130, 246, 0.7)',
         'glow-cyan': '0 0 20px rgba(6, 182, 212, 0.4)',
       },
     },
