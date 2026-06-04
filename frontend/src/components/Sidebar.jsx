@@ -53,6 +53,16 @@ const Sidebar = ({ activeTab, setActiveTab, currentUser, isCompact }) => {
           </button>
         ))}
       </nav>
+
+      {/* Toggle de Sidebar */}
+      <button
+        onClick={toggleSidebar}
+        className={`px-4 py-2 text-xs text-text-secondary hover:text-text transition-all duration-300 flex items-center ${isCompact ? "justify-center" : "gap-1"}`}
+        title={isCompact ? "Expandir menu" : "Recolher menu"}
+      >
+        <span>{isCompact ? "››" : "‹‹"}</span>
+        {!isCompact && <span>Recolher menu</span>}
+      </button>
       
       {/* User Profile */}
       <div className="p-4 border-t border-border">
@@ -72,15 +82,6 @@ const Sidebar = ({ activeTab, setActiveTab, currentUser, isCompact }) => {
           )}
         </div>
       </div>
-
-      {/* Toggle de Sidebar */}
-      <button
-        onClick={toggleSidebar}
-        className="absolute right-0 bottom-20 w-4 h-8 bg-sidebar-background border-t border-b border-r border-border rounded-r-lg flex items-center justify-center text-xs text-text-secondary hover:text-text hover:bg-sidebar-surface transition-all duration-300 z-50"
-        title={isCompact ? "Expandir menu" : "Recolher menu"}
-      >
-        {isCompact ? "››" : "‹‹"}
-      </button>
     </div>
   );
 };
