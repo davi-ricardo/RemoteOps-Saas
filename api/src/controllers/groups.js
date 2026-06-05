@@ -1,6 +1,7 @@
 const db = require("../db");
 
 exports.listGroups = async (req, res) => {
+  console.log("[LOG] listGroups endpoint called");
   try {
     const result = await db.query(`
       SELECT g.*, COUNT(ab.id) as device_count 
@@ -9,9 +10,10 @@ exports.listGroups = async (req, res) => {
       GROUP BY g.id 
       ORDER BY g.name ASC
     `);
+    console.log("[LOG] listGroups found", result.rows.length, "groups");
     res.json(result.rows);
   } catch (err) {
-    console.error(err);
+    console.error("[LOG] listGroups error:", err);
     res.status(500).json({ error: "Failed to list groups" });
   }
 };

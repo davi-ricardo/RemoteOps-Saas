@@ -1,11 +1,13 @@
 const db = require("../db");
 
 exports.listCategories = async (req, res) => {
+  console.log("[LOG] listCategories endpoint called");
   try {
     const result = await db.query("SELECT * FROM service_categories ORDER BY name ASC");
+    console.log("[LOG] listCategories found", result.rows.length, "categories");
     res.json(result.rows);
   } catch (err) {
-    console.error(err);
+    console.error("[LOG] listCategories error:", err);
     res.status(500).json({ error: "Failed to list categories" });
   }
 };

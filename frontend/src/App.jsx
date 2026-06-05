@@ -69,57 +69,84 @@ function App() {
   // Fetch functions
   const fetchServerInfo = async () => {
     try {
+      console.log('[DEBUG] fetchServerInfo called');
       const response = await api.get('/api/server-info');
+      console.log('[DEBUG] fetchServerInfo response:', response.data);
       setServerInfo(response.data);
       if (!editingServerInfo) {
         setEditIdServer(response.data?.idServer || '');
         setEditRelayServer(response.data?.relayServer || '');
         setEditRustdeskKey(response.data?.key || '');
       }
-    } catch (err) { console.error('Erro ao buscar info do servidor'); }
+    } catch (err) { 
+      console.error('Erro ao buscar info do servidor:', err.response?.data || err.message); 
+    }
   };
 
   const fetchTodayConnections = async () => {
     try {
+      console.log('[DEBUG] fetchTodayConnections called');
       const response = await api.get('/api/today-connections');
+      console.log('[DEBUG] fetchTodayConnections response:', response.data);
       setTodayConnections(response.data.count);
-    } catch (err) { console.error('Erro ao buscar conexões de hoje'); }
+    } catch (err) { 
+      console.error('Erro ao buscar conexões de hoje:', err.response?.data || err.message); 
+    }
   };
 
   const fetchDevices = async () => {
     try {
+      console.log('[DEBUG] fetchDevices called');
       const response = await api.get('/api/devices');
+      console.log('[DEBUG] fetchDevices response:', response.data);
       setDevices(response.data);
-    } catch (err) { console.error('Erro ao buscar dispositivos'); }
+    } catch (err) { 
+      console.error('Erro ao buscar dispositivos:', err.response?.data || err.message); 
+    }
   };
 
   const fetchGroups = async () => {
     try {
+      console.log('[DEBUG] fetchGroups called');
       const response = await api.get('/api/groups');
+      console.log('[DEBUG] fetchGroups response:', response.data);
       setGroups(response.data);
-    } catch (err) { console.error('Erro ao buscar grupos'); }
+    } catch (err) { 
+      console.error('Erro ao buscar grupos:', err.response?.data || err.message); 
+    }
   };
 
   const fetchReports = async () => {
     try {
+      console.log('[DEBUG] fetchReports called');
       const response = await api.get('/api/reports');
-      console.log('[DEBUG] fetchReports:', response.data);
+      console.log('[DEBUG] fetchReports response:', response.data);
       setReports(response.data);
-    } catch (err) { console.error('Erro ao buscar relatórios'); }
+    } catch (err) { 
+      console.error('Erro ao buscar relatórios:', err.response?.data || err.message); 
+    }
   };
 
   const fetchUsers = async () => {
     try {
+      console.log('[DEBUG] fetchUsers called, currentUser:', currentUser);
       const response = await api.get('/api/users');
+      console.log('[DEBUG] fetchUsers response:', response.data);
       setUsers(response.data);
-    } catch (err) { console.error('Erro ao buscar usuários'); }
+    } catch (err) { 
+      console.error('Erro ao buscar usuários:', err.response?.data || err.message); 
+    }
   };
 
   const fetchServiceCategories = async () => {
     try {
+      console.log('[DEBUG] fetchServiceCategories called, currentUser:', currentUser);
       const response = await api.get('/api/service-categories');
+      console.log('[DEBUG] fetchServiceCategories response:', response.data);
       setServiceCategories(response.data);
-    } catch (err) { console.error('Erro ao buscar categorias'); }
+    } catch (err) { 
+      console.error('Erro ao buscar categorias:', err.response?.data || err.message); 
+    }
   };
 
   // Handlers
