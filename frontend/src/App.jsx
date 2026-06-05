@@ -343,12 +343,16 @@ function App() {
   }, [preferences.homePage]);
 
   useEffect(() => {
+    console.log('[DEBUG] useEffect running', { token, activeTab, currentUser });
     if (token) {
+      console.log('[DEBUG] Token exists, fetching data...');
       fetchServerInfo();
       fetchTodayConnections();
       fetchDevices();
       fetchGroups();
+      console.log('[DEBUG] currentUser?.role:', currentUser?.role);
       if (currentUser?.role === 'admin') {
+        console.log('[DEBUG] User is admin, fetching service categories...');
         fetchServiceCategories();
       }
       if (activeTab === 'reports') fetchReports();
