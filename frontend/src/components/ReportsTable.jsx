@@ -11,6 +11,17 @@ const ReportsTable = ({ reports, serviceCategories, onClassifyLog, exportMonth, 
     setCurrentPage(1);
   }, [preferences.itemsPerPage, preferences.defaultSort]);
 
+  // Verifica se o tema atual é claro
+  const isLightTheme = () => {
+    if (preferences.theme === "light") return true;
+    if (preferences.theme === "system") {
+      return window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
+    }
+    return false;
+  };
+
+  const light = isLightTheme();
+
   // Ordenar relatórios (mais novos primeiro por padrão)
   const sortedReports = useMemo(() => {
     const sorted = [...reports].sort((a, b) => {
@@ -55,7 +66,9 @@ const ReportsTable = ({ reports, serviceCategories, onClassifyLog, exportMonth, 
 
   return (
     <div className="space-y-6">
-      <div className="rounded-2xl bg-background-secondary border border-border overflow-hidden">
+      <div className={`rounded-2xl bg-background-secondary border border-border overflow-hidden transition-all duration-300 ${
+        light ? 'shadow-light-box' : ''
+      }`}>
         <div className="p-6 border-b border-border flex flex-wrap items-center justify-between gap-4">
           <h3 className="text-lg font-semibold text-text">Histórico de Conexões</h3>
           <div className="flex items-center gap-3">
@@ -81,7 +94,7 @@ const ReportsTable = ({ reports, serviceCategories, onClassifyLog, exportMonth, 
             </select>
             <button
               onClick={onExportXLS}
-              className="px-4 py-2 bg-gradient-to-r from-success to-emerald-600 hover:opacity-90 text-white rounded-xl text-sm font-medium transition-all"
+              className="px-4 py-2 bg-gradient-to-r from-success to-emerald-600 hover:opacity-90 text-white rounded-xl text-sm font-medium transition-all border border-success/20"
             >
               Exportar XLS
             </button>
@@ -89,8 +102,8 @@ const ReportsTable = ({ reports, serviceCategories, onClassifyLog, exportMonth, 
         </div>
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-surface/30">
-              <tr>
+            <thead className="bg-background">
+              <tr className="border-b border-border">
                 <th className="px-6 py-4 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">
                   Data/Hora
                 </th>
@@ -116,7 +129,7 @@ const ReportsTable = ({ reports, serviceCategories, onClassifyLog, exportMonth, 
             </thead>
             <tbody className="divide-y divide-border">
               {currentReports.map(log => (
-                <tr key={log.id} className="hover:bg-surface/30 transition-colors">
+                <tr key={log.id} className="bg-surface hover:bg-surface-hover transition-colors">
                   <td className="px-6 py-4">
                     <span className="text-sm text-text-secondary">{formatDate(log.timestamp)}</span>
                   </td>
@@ -127,12 +140,12 @@ const ReportsTable = ({ reports, serviceCategories, onClassifyLog, exportMonth, 
                     <span className="text-sm text-text-secondary">{log.to_alias || log.to_device_id}</span>
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`px-3 py-1 rounded-full text-xs ${log.category_name ? 'bg-primary/10 text-primary' : 'bg-surface text-text-muted'}`}>
+                    <span className={`px-3 py-1 rounded-full text-xs border ${log.category_name ? 'bg-primary/10 text-primary border-primary/20' : 'bg-surface text-text-muted border-border'}`}>
                       {log.category_name || 'Não classificado'}
                     </span>
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`px-3 py-1 rounded-full text-xs ${log.action === 'start' ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'}`}>
+                    <span className={`px-3 py-1 rounded-full text-xs border ${log.action === 'start' ? 'bg-success/10 text-success border-success/20' : 'bg-danger/10 text-danger border-danger/20'}`}>
                       {log.action === 'start' ? 'Iniciada' : 'Finalizada'}
                     </span>
                   </td>
@@ -143,7 +156,7 @@ const ReportsTable = ({ reports, serviceCategories, onClassifyLog, exportMonth, 
                     <div className="flex gap-2">
                       <button
                         onClick={() => onClassifyLog(log)}
-                        className="px-3 py-1.5 text-sm text-text-secondary hover:bg-surface rounded-lg transition-all"
+                        className="px-3 py-1.5 text-sm text-text-secondary hover:bg-surface rounded-lg transition-all border border-border"
                       >
                         Classificar
                       </button>
@@ -156,7 +169,7 @@ const ReportsTable = ({ reports, serviceCategories, onClassifyLog, exportMonth, 
         </div>
         {/* Paginação */}
         {totalPages > 1 && (
-          <div className="p-4 border-t border-border flex items-center justify-between">
+          <div className="p-4 border-t border-border flex items-center justify-between bg-surface">
             <div className="text-sm text-text-secondary">
               Mostrando {(currentPage - 1) * itemsPerPage + 1}–{Math.min(currentPage * itemsPerPage, sortedReports.length)} de {sortedReports.length}
             </div>
@@ -164,7 +177,7 @@ const ReportsTable = ({ reports, serviceCategories, onClassifyLog, exportMonth, 
               <button
                 onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
-                className="px-3 py-2 bg-surface hover:bg-surface-hover disabled:opacity-50 disabled:cursor-not-allowed text-text-secondary rounded-lg transition-all"
+                className="px-3 py-2 bg-surface hover:bg-surface-hover disabled:opacity-50 disabled:cursor-not-allowed text-text-secondary rounded-lg transition-all border border-border"
               >
                 Anterior
               </button>
@@ -174,7 +187,7 @@ const ReportsTable = ({ reports, serviceCategories, onClassifyLog, exportMonth, 
                   <button
                     key={page}
                     onClick={() => setCurrentPage(page)}
-                    className={`px-3 py-2 rounded-lg transition-all ${currentPage === page ? 'bg-primary text-white' : 'bg-surface hover:bg-surface-hover text-text-secondary'}`}
+                    className={`px-3 py-2 rounded-lg transition-all border ${currentPage === page ? 'bg-primary text-white border-primary' : 'bg-surface hover:bg-surface-hover text-text-secondary border-border'}`}
                   >
                     {page}
                   </button>
@@ -183,7 +196,7 @@ const ReportsTable = ({ reports, serviceCategories, onClassifyLog, exportMonth, 
               <button
                 onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
-                className="px-3 py-2 bg-surface hover:bg-surface-hover disabled:opacity-50 disabled:cursor-not-allowed text-text-secondary rounded-lg transition-all"
+                className="px-3 py-2 bg-surface hover:bg-surface-hover disabled:opacity-50 disabled:cursor-not-allowed text-text-secondary rounded-lg transition-all border border-border"
               >
                 Próxima
               </button>

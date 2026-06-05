@@ -49,8 +49,19 @@ const Sidebar = ({ activeTab, setActiveTab, currentUser, isCompact }) => {
     return false;
   };
 
+  const active = isLightTheme();
+
+  const sidebarBg = active ? 'bg-[#f0f7ff] border-[#b8daff]' : 'bg-sidebar-background';
+  const sidebarText = active ? 'text-[#1e40af]' : 'text-sidebar-text';
+  const sidebarActive = active 
+    ? 'bg-[#dbeafe] text-[#1d4ed8] border-l-4 border-[#60a5fa]' 
+    : 'bg-blue-900/30 text-blue-400 shadow-[0_0_40px_rgba(59,130,246,0.7)] border border-blue-500/40';
+  const sidebarHover = active 
+    ? 'text-[#1e40af] hover:bg-[#e0f2fe]' 
+    : 'text-sidebar-text hover:text-text hover:bg-sidebar-surface';
+
   return (
-    <div className={`${isCompact ? "w-20" : "w-64"} h-screen bg-sidebar-background backdrop-blur-md border-r border-border flex flex-col fixed left-0 top-0 z-40 transition-all duration-300`}>
+    <div className={`${isCompact ? "w-20" : "w-64"} h-screen ${sidebarBg} backdrop-blur-md border-r border-border flex flex-col fixed left-0 top-0 z-40 transition-all duration-300`}>
       {/* Logo */}
       <div className={`p-6 border-b border-border flex items-center justify-between ${isCompact ? "justify-center" : "gap-3"}`}>
         <div className={`flex items-center ${isCompact ? "justify-center" : "gap-3"}`}>
@@ -59,23 +70,12 @@ const Sidebar = ({ activeTab, setActiveTab, currentUser, isCompact }) => {
           </div>
           {!isCompact && (
             <div>
-              <h2 className="text-xl font-bold text-text">RemoteOps</h2>
+              <h2 className={`text-xl font-bold ${active ? 'text-[#1e40af]' : 'text-text'}`}>RemoteOps</h2>
               <p className="text-xs text-text-muted">Enterprise Panel</p>
             </div>
           )}
         
         </div>
-        {/* Toggle de Tema (comentado para caso queira retornar depois)*/}
-        {/*<button
-          onClick={toggleTheme}
-          className="w-8 h-8 rounded-lg bg-surface hover:bg-surface-hover text-text-secondary hover:text-text transition-all duration-300 flex items-center justify-center text-sm"
-          title={isLightTheme() ? "Mudar para tema escuro" : "Mudar para tema claro"}
-        >
-          {isLightTheme() 
-            ? <Moon size={18}/>
-            : <Sun size={18}/>
-          }
-        </button>*/}
       </div>
 
       {/* Menu Items */}
@@ -86,8 +86,8 @@ const Sidebar = ({ activeTab, setActiveTab, currentUser, isCompact }) => {
             onClick={() => setActiveTab(item.id)}
             className={`w-full flex items-center ${isCompact ? "justify-center" : "gap-3"} px-4 py-3 rounded-xl transition-all duration-200 ${
               activeTab === item.id
-                ? 'bg-blue-900/30 text-blue-400 shadow-[0_0_40px_rgba(59,130,246,0.7)] border border-blue-500/40'
-                : 'text-sidebar-text hover:text-text hover:bg-sidebar-surface'
+                ? sidebarActive
+                : sidebarHover
             }`}
             title={isCompact ? item.label : undefined}
           >

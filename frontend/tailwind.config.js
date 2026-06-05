@@ -39,6 +39,10 @@ export default {
       boxShadow: {
         'glow-blue': '0 0 40px rgba(59, 130, 246, 0.7)',
         'glow-cyan': '0 0 20px rgba(6, 182, 212, 0.4)',
+        'light-card': '0 10px 25px -5px rgba(15, 23, 42, 0.15), 0 8px 10px -6px rgba(15, 23, 42, 0.1)',
+        'light-card-hover': '0 20px 40px -12px rgba(15, 23, 42, 0.25), 0 10px 20px -10px rgba(15, 23, 42, 0.15)',
+        'light-box': '0 10px 30px -10px rgba(15, 23, 42, 0.25), 0 8px 24px -8px rgba(15, 23, 42, 0.15)',
+        'light-box-hover': '0 15px 35px -10px rgba(15, 23, 42, 0.3), 0 10px 20px -8px rgba(15, 23, 42, 0.2)',
       },
     },
   },

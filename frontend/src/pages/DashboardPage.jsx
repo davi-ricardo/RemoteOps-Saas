@@ -1,7 +1,20 @@
 import StatCard from '../components/StatCard';
+import { usePreferences } from '../contexts/PreferencesContext';
 
 const DashboardPage = ({ devices, users, todayConnections }) => {
+  const { preferences } = usePreferences();
   const onlineDevices = devices.filter(d => d.is_online).length;
+
+  // Verifica se o tema atual é claro
+  const isLightTheme = () => {
+    if (preferences.theme === "light") return true;
+    if (preferences.theme === "system") {
+      return window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
+    }
+    return false;
+  };
+
+  const light = isLightTheme();
   
   return (
     <div className="space-y-6">
@@ -34,7 +47,11 @@ const DashboardPage = ({ devices, users, todayConnections }) => {
       </div>
       
       {/* Welcome Message */}
-      <div className="p-6 rounded-2xl bg-background-secondary border border-border">
+      <div className={`p-6 rounded-2xl bg-background-secondary border border-border transition-all duration-300 ${
+        light 
+          ? 'bg-white shadow-light-card border-l-4 border-l-[#2563eb]' 
+          : ''
+      }`}>
         <h2 className="text-xl font-bold text-text mb-2">Bem-vindo ao RemoteOps!</h2>
         <p className="text-text-secondary">Gerencie seus dispositivos, usuários e relatórios de forma centralizada.</p>
       </div>

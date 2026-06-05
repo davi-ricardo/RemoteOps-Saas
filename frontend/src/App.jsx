@@ -24,6 +24,17 @@ function App() {
     }
     return 'home';
   });
+  
+  // Verifica se o tema atual é claro
+  const isLightTheme = () => {
+    if (preferences.theme === "light") return true;
+    if (preferences.theme === "system") {
+      return window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
+    }
+    return false;
+  };
+  
+  const light = isLightTheme();
   const [devices, setDevices] = useState([]);
   const [groups, setGroups] = useState([]);
   const [reports, setReports] = useState([]);
@@ -394,7 +405,9 @@ function App() {
           <div className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-1">
-                <div className="rounded-2xl bg-background-secondary border border-border p-6">
+                <div className={`rounded-2xl bg-background-secondary border border-border p-6 transition-all duration-300 ${
+                  light ? 'shadow-light-box' : ''
+                }`}>
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-lg font-semibold text-text">Configurações VPS</h3>
                     {currentUser?.role === 'admin' && (
@@ -490,7 +503,9 @@ function App() {
           <div className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-1">
-                <div className="rounded-2xl bg-background-secondary border border-border p-6">
+                <div className={`rounded-2xl bg-background-secondary border border-border p-6 transition-all duration-300 ${
+                  light ? 'shadow-light-box' : ''
+                }`}>
                   <h3 className="text-lg font-semibold text-text mb-4">
                     {editingGroup ? 'Editar Grupo' : 'Novo Grupo'}
                   </h3>
@@ -583,7 +598,9 @@ function App() {
           <div className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-1">
-                <div className="rounded-2xl bg-background-secondary border border-border p-6">
+                <div className={`rounded-2xl bg-background-secondary border border-border p-6 transition-all duration-300 ${
+                  light ? 'shadow-light-box' : ''
+                }`}>
                   <h3 className="text-lg font-semibold text-text mb-4">
                     {editingCategory ? 'Editar Tipo' : 'Novo Tipo de Serviço'}
                   </h3>
@@ -655,7 +672,9 @@ function App() {
           <div className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-1">
-                <div className="rounded-2xl bg-background-secondary border border-border p-6">
+                <div className={`rounded-2xl bg-background-secondary border border-border p-6 transition-all duration-300 ${
+                  light ? 'shadow-light-box' : ''
+                }`}>
                   <h3 className="text-lg font-semibold text-text mb-4">Novo Usuário</h3>
                   <form onSubmit={handleCreateUser} className="space-y-4">
                     <div>

@@ -1,7 +1,20 @@
 import { useState } from 'react';
+import { usePreferences } from '../contexts/PreferencesContext';
 
 const DeviceTable = ({ devices, groups, onEditDevice, filterGroupId, setFilterGroupId }) => {
+  const { preferences } = usePreferences();
   const [searchTerm, setSearchTerm] = useState("");
+
+  // Verifica se o tema atual é claro
+  const isLightTheme = () => {
+    if (preferences.theme === "light") return true;
+    if (preferences.theme === "system") {
+      return window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
+    }
+    return false;
+  };
+
+  const light = isLightTheme();
   
   const filteredDevices = devices.filter(device => {
     const matchesGroup = !filterGroupId || (filterGroupId === 'none' ? !device.group_id : String(device.group_id) === String(filterGroupId));
@@ -14,7 +27,9 @@ const DeviceTable = ({ devices, groups, onEditDevice, filterGroupId, setFilterGr
   });
 
   return (
-    <div className="rounded-2xl bg-background-secondary border border-border overflow-hidden">
+    <div className={`rounded-2xl bg-background-secondary border border-border overflow-hidden transition-all duration-300 ${
+      light ? 'shadow-light-box' : ''
+    }`}>
       <div className="p-6 border-b border-border flex flex-wrap items-center justify-between gap-4">
         <h3 className="text-lg font-semibold text-text">Livro de Endereços</h3>
         <div className="flex flex-wrap items-center gap-3">
@@ -46,8 +61,8 @@ const DeviceTable = ({ devices, groups, onEditDevice, filterGroupId, setFilterGr
       </div>
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-surface/30">
-            <tr>
+          <thead className="bg-background">
+            <tr className="border-b border-border">
               <th className="px-6 py-4 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">
                 Status
               </th>
@@ -67,7 +82,7 @@ const DeviceTable = ({ devices, groups, onEditDevice, filterGroupId, setFilterGr
           </thead>
           <tbody className="divide-y divide-border">
             {filteredDevices.map(device => (
-              <tr key={device.id} className="hover:bg-surface/30 transition-colors">
+              <tr key={device.id} className="bg-surface hover:bg-surface-hover transition-colors">
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-2">
                     <span className={`w-2 h-2 rounded-full ${device.is_online ? 'bg-success' : 'bg-danger'}`}></span>
@@ -85,19 +100,19 @@ const DeviceTable = ({ devices, groups, onEditDevice, filterGroupId, setFilterGr
                   </div>
                 </td>
                 <td className="px-6 py-4">
-                  <span className="px-3 py-1 rounded-full bg-surface text-text-secondary text-xs">
+                  <span className="px-3 py-1 rounded-full bg-surface text-text-secondary text-xs border border-border">
                     {device.group_name || 'Geral'}
                   </span>
                 </td>
                 <td className="px-6 py-4">
-                  <code className="text-xs text-pink-500 bg-surface px-2 py-1 rounded-lg break-all">
+                  <code className="text-xs text-pink-500 bg-surface px-2 py-1 rounded-lg break-all border border-border">
                     {device.device_id}
                   </code>
                 </td>
                 <td className="px-6 py-4">
                   <button
                     onClick={() => onEditDevice(device)}
-                    className="px-4 py-2 text-sm text-primary hover:text-primary-hover hover:bg-primary/10 rounded-xl transition-all"
+                    className="px-4 py-2 text-sm text-primary hover:text-primary-hover hover:bg-primary/10 rounded-xl transition-all border border-primary/20"
                   >
                     Editar
                   </button>
