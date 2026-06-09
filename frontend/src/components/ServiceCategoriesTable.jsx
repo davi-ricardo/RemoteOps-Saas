@@ -55,7 +55,7 @@ const ServiceCategoriesTable = ({ serviceCategories, onEditCategory, onDeleteCat
                     </button>
                     <button
                       onClick={() => onDeleteCategory(category.id)}
-                      className="px-3 py-1.5 text-sm text-danger hover:bg-danger/10 rounded-lg transition-all border border-danger/20"
+                      className="px-3 py-1.5 text-sm text-danger hover:bg-danger/10 rounded-lg transition-all border border-border"
                     >
                       Excluir
                     </button>

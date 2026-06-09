@@ -94,7 +94,7 @@ const ReportsTable = ({ reports, serviceCategories, onClassifyLog, exportMonth, 
             </select>
             <button
               onClick={onExportXLS}
-              className="px-4 py-2 bg-gradient-to-r from-success to-emerald-600 hover:opacity-90 text-white rounded-xl text-sm font-medium transition-all border border-success/20"
+              className="px-4 py-2 bg-gradient-to-r from-success to-emerald-600 hover:opacity-90 text-white rounded-xl text-sm font-medium transition-all border border-border"
             >
               Exportar XLS
             </button>
@@ -140,12 +140,12 @@ const ReportsTable = ({ reports, serviceCategories, onClassifyLog, exportMonth, 
                     <span className="text-sm text-text-secondary">{log.to_alias || log.to_device_id}</span>
                   </td>
                   <td className="px-6 py-4">
-                  <span className={`px-3 py-1 rounded-full text-xs border ${log.category_name ? 'bg-primary/10 text-primary border-primary/20' : 'bg-surface text-text-muted border-border'}`}>
+                  <span className={`px-3 py-1 rounded-full text-xs border border-border ${log.category_name ? 'bg-primary/10 text-primary' : 'bg-surface text-text-muted'}`}>
                     {log.category_name || 'Não classificado'}
                   </span>
                 </td>
                 <td className="px-6 py-4">
-                  <span className={`px-3 py-1 rounded-full text-xs border ${log.action === 'start' ? 'bg-success/10 text-success border-success/20' : 'bg-danger/10 text-danger border-danger/20'}`}>
+                  <span className={`px-3 py-1 rounded-full text-xs border border-border ${log.action === 'start' ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'}`}>
                     {log.action === 'start' ? 'Iniciada' : 'Finalizada'}
                   </span>
                 </td>

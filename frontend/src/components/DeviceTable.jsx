@@ -112,7 +112,7 @@ const DeviceTable = ({ devices, groups, onEditDevice, filterGroupId, setFilterGr
                 <td className="px-6 py-4">
                   <button
                     onClick={() => onEditDevice(device)}
-                    className="px-4 py-2 text-sm text-primary hover:text-primary-hover hover:bg-primary/10 rounded-xl transition-all border border-primary/20"
+                    className="px-4 py-2 text-sm text-primary hover:text-primary-hover hover:bg-primary/10 rounded-xl transition-all border border-border"
                   >
                     Editar
                   </button>
