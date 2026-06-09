@@ -14,7 +14,7 @@
   --color-surface-elevated: rgba(30, 41, 59, 0.5);
   
   /* Borders */
-  --color-border: rgba(51, 65, 85, 0.15);
+  --color-border: rgba(51, 65, 85, 0.4); /* similar a border-slate-700/40 */
   --color-border-hover: #475569;
   
   /* Text */
