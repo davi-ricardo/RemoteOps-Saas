@@ -55,19 +55,19 @@ const GroupsTable = ({ groups, onEditGroup, onDeleteGroup, onViewDevices }) => {
                   <div className="flex gap-2">
                     <button
                       onClick={() => onViewDevices(group.id)}
-                      className={`px-3 py-1.5 text-sm text-primary hover:bg-primary/10 rounded-lg transition-all ${light ? 'border border-primary/20' : ''}`}
+                      className="px-3 py-1.5 text-sm text-primary hover:bg-primary/10 rounded-lg transition-all border border-primary/20"
                     >
                       Ver IDs
                     </button>
                     <button
                       onClick={() => onEditGroup(group)}
-                      className={`px-3 py-1.5 text-sm text-text-secondary hover:bg-surface rounded-lg transition-all ${light ? 'border border-border' : ''}`}
+                      className="px-3 py-1.5 text-sm text-text-secondary hover:bg-surface rounded-lg transition-all border border-border"
                     >
                       Editar
                     </button>
                     <button
                       onClick={() => onDeleteGroup(group.id)}
-                      className={`px-3 py-1.5 text-sm text-danger hover:bg-danger/10 rounded-lg transition-all ${light ? 'border border-danger/20' : ''}`}
+                      className="px-3 py-1.5 text-sm text-danger hover:bg-danger/10 rounded-lg transition-all border border-danger/20"
                     >
                       Excluir
                     </button>

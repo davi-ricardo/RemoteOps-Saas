@@ -52,12 +52,12 @@ const UsersTable = ({ users, onEditUser, onToggleUserStatus }) => {
                   <span className="text-sm text-text-secondary">{user.email}</span>
                 </td>
                 <td className="px-6 py-4">
-                  <span className={`px-3 py-1 rounded-full text-xs ${user.role === 'admin' ? 'bg-warning/10 text-warning' : 'bg-surface text-text-secondary'} ${light ? 'border ' + (user.role === 'admin' ? 'border-warning/20' : 'border-border') : ''}`}>
+                  <span className={`px-3 py-1 rounded-full text-xs border ${user.role === 'admin' ? 'bg-warning/10 text-warning border-warning/20' : 'bg-surface text-text-secondary border-border'}`}>
                     {user.role}
                   </span>
                 </td>
                 <td className="px-6 py-4">
-                  <span className={`px-3 py-1 rounded-full text-xs ${user.is_active ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'} ${light ? 'border ' + (user.is_active ? 'border-success/20' : 'border-danger/20') : ''}`}>
+                  <span className={`px-3 py-1 rounded-full text-xs border ${user.is_active ? 'bg-success/10 text-success border-success/20' : 'bg-danger/10 text-danger border-danger/20'}`}>
                     {user.is_active ? 'Ativo' : 'Desativado'}
                   </span>
                 </td>
@@ -65,18 +65,18 @@ const UsersTable = ({ users, onEditUser, onToggleUserStatus }) => {
                   <div className="flex gap-2">
                     <button
                       onClick={() => onEditUser(user)}
-                      className={`px-3 py-1.5 text-sm text-text-secondary hover:bg-surface rounded-lg transition-all ${light ? 'border border-border' : ''}`}
+                      className="px-3 py-1.5 text-sm text-text-secondary hover:bg-surface rounded-lg transition-all border border-border"
                     >
                       Editar
                     </button>
                     {user.username !== 'administrador' && (
                       <button
                         onClick={() => onToggleUserStatus(user.id, user.is_active)}
-                        className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-all ${
+                        className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-all border ${
                           user.is_active 
-                            ? 'text-danger hover:bg-danger/10' 
-                            : 'text-success hover:bg-success/10'
-                        } ${light ? 'border ' + (user.is_active ? 'border-danger/20' : 'border-success/20') : ''}`}
+                            ? 'text-danger hover:bg-danger/10 border-danger/20' 
+                            : 'text-success hover:bg-success/10 border-success/20'
+                        }`}
                       >
                         {user.is_active ? 'Desativar' : 'Ativar'}
                       </button>
