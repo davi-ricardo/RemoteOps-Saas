@@ -15,7 +15,7 @@ const DashboardLayout = ({ activeTab, setActiveTab, currentUser, onLogout, title
         isCompact={isSidebarCompact}
       />
       <Topbar title={title} onLogout={onLogout} isSidebarCompact={isSidebarCompact} />
-      <main className={`pt-16 min-h-screen p-6 transition-all duration-200 ${isSidebarCompact ? "ml-20" : "ml-64"}`}>
+      <main className={`pt-24 min-h-screen p-6 transition-all duration-200 ${isSidebarCompact ? "ml-20" : "ml-64"}`}>
         {children}
       </main>
     </div>
