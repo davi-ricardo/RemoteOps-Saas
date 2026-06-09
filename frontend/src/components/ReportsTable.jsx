@@ -140,12 +140,12 @@ const ReportsTable = ({ reports, serviceCategories, onClassifyLog, exportMonth, 
                     <span className="text-sm text-text-secondary">{log.to_alias || log.to_device_id}</span>
                   </td>
                   <td className="px-6 py-4">
-                  <span className={`px-3 py-1 rounded-full text-xs border ${light ? '' : 'border-opacity-50'} ${log.category_name ? 'bg-primary/10 text-primary border-primary/20' : 'bg-surface text-text-muted border-border'}`}>
+                  <span className={`px-3 py-1 rounded-full text-xs border ${log.category_name ? 'bg-primary/10 text-primary border-primary/20' : 'bg-surface text-text-muted border-border'}`}>
                     {log.category_name || 'Não classificado'}
                   </span>
                 </td>
                 <td className="px-6 py-4">
-                  <span className={`px-3 py-1 rounded-full text-xs border ${light ? '' : 'border-opacity-50'} ${log.action === 'start' ? 'bg-success/10 text-success border-success/20' : 'bg-danger/10 text-danger border-danger/20'}`}>
+                  <span className={`px-3 py-1 rounded-full text-xs border ${log.action === 'start' ? 'bg-success/10 text-success border-success/20' : 'bg-danger/10 text-danger border-danger/20'}`}>
                     {log.action === 'start' ? 'Iniciada' : 'Finalizada'}
                   </span>
                 </td>
@@ -156,7 +156,7 @@ const ReportsTable = ({ reports, serviceCategories, onClassifyLog, exportMonth, 
                   <div className="flex gap-2">
                     <button
                       onClick={() => onClassifyLog(log)}
-                      className={`px-3 py-1.5 text-sm text-text-secondary hover:bg-surface rounded-lg transition-all border border-border ${light ? '' : 'border-opacity-50'}`}
+                      className="px-3 py-1.5 text-sm text-text-secondary hover:bg-surface rounded-lg transition-all border border-border"
                     >
                       Classificar
                     </button>

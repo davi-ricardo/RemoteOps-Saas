@@ -14,7 +14,7 @@
   --color-surface-elevated: rgba(30, 41, 59, 0.5);
   
   /* Borders */
-  --color-border: rgba(51, 65, 85, 0.5);
+  --color-border: rgba(51, 65, 85, 0.25); /* Mais Sutil ainda! */
   --color-border-hover: #475569;
   
   /* Text */
@@ -40,7 +40,7 @@
   
   /* Topbar */
   --color-topbar-background: rgba(15, 23, 42, 0.5);
-  --color-topbar-border: rgba(51, 65, 85, 0.5);
+  --color-topbar-border: rgba(51, 65, 85, 0.25);
 }
 
 /* Tema Claro Premium - Novo Design System Independente */

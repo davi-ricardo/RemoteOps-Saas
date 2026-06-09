@@ -49,13 +49,13 @@ const ServiceCategoriesTable = ({ serviceCategories, onEditCategory, onDeleteCat
                   <div className="flex gap-2">
                     <button
                       onClick={() => onEditCategory(category)}
-                      className={`px-3 py-1.5 text-sm text-text-secondary hover:bg-surface rounded-lg transition-all border border-border ${light ? '' : 'border-opacity-50'}`}
+                      className="px-3 py-1.5 text-sm text-text-secondary hover:bg-surface rounded-lg transition-all border border-border"
                     >
                       Editar
                     </button>
                     <button
                       onClick={() => onDeleteCategory(category.id)}
-                      className={`px-3 py-1.5 text-sm text-danger hover:bg-danger/10 rounded-lg transition-all border border-danger/20 ${light ? '' : 'border-opacity-50'}`}
+                      className="px-3 py-1.5 text-sm text-danger hover:bg-danger/10 rounded-lg transition-all border border-danger/20"
                     >
                       Excluir
                     </button>

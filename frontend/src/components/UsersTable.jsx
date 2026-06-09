@@ -52,12 +52,12 @@ const UsersTable = ({ users, onEditUser, onToggleUserStatus }) => {
                   <span className="text-sm text-text-secondary">{user.email}</span>
                 </td>
                 <td className="px-6 py-4">
-                  <span className={`px-3 py-1 rounded-full text-xs border ${light ? '' : 'border-opacity-50'} ${user.role === 'admin' ? 'bg-warning/10 text-warning border-warning/20' : 'bg-surface text-text-secondary border-border'}`}>
+                  <span className={`px-3 py-1 rounded-full text-xs border ${user.role === 'admin' ? 'bg-warning/10 text-warning border-warning/20' : 'bg-surface text-text-secondary border-border'}`}>
                     {user.role}
                   </span>
                 </td>
                 <td className="px-6 py-4">
-                  <span className={`px-3 py-1 rounded-full text-xs border ${light ? '' : 'border-opacity-50'} ${user.is_active ? 'bg-success/10 text-success border-success/20' : 'bg-danger/10 text-danger border-danger/20'}`}>
+                  <span className={`px-3 py-1 rounded-full text-xs border ${user.is_active ? 'bg-success/10 text-success border-success/20' : 'bg-danger/10 text-danger border-danger/20'}`}>
                     {user.is_active ? 'Ativo' : 'Desativado'}
                   </span>
                 </td>
@@ -65,7 +65,7 @@ const UsersTable = ({ users, onEditUser, onToggleUserStatus }) => {
                   <div className="flex gap-2">
                     <button
                       onClick={() => onEditUser(user)}
-                      className={`px-3 py-1.5 text-sm text-text-secondary hover:bg-surface rounded-lg transition-all border border-border ${light ? '' : 'border-opacity-50'}`}
+                      className="px-3 py-1.5 text-sm text-text-secondary hover:bg-surface rounded-lg transition-all border border-border"
                     >
                       Editar
                     </button>
@@ -76,7 +76,7 @@ const UsersTable = ({ users, onEditUser, onToggleUserStatus }) => {
                           user.is_active 
                             ? 'text-danger hover:bg-danger/10 border-danger/20' 
                             : 'text-success hover:bg-success/10 border-success/20'
-                        } ${light ? '' : 'border-opacity-50'}`}
+                        }`}
                       >
                         {user.is_active ? 'Desativar' : 'Ativar'}
                       </button>
