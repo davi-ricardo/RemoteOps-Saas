@@ -43,7 +43,7 @@ services:
       - postgres
     environment:
       DATABASE_URL: postgres://rustdesk:rustdesk123@postgres:5432/rustdesk
-      JWT_SECRET: supersecretkey
+      JWT_SECRET: ${JWT_SECRET}
       ID_SERVER: "seu-ip-aqui"
       RELAY_SERVER: "seu-ip-aqui"
       RUSTDESK_KEY: "sua-chave-publica-aqui"

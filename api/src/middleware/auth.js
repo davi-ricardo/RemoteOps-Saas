@@ -14,7 +14,7 @@ const authenticate = async (req, res, next) => {
     // Extrai o token do header (formato: "Bearer <token>")
     const token = authHeader.split(" ")[1];
     // Verifica a validade do token usando a chave secreta JWT_SECRET
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || "supersecretkey");
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     // Busca o usuário no banco de dados usando o ID do token decodificado
     const result = await db.query("SELECT * FROM users WHERE id = $1", [decoded.userId]);
